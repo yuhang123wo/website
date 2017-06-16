@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yu.hang.core.dao.TestMapper">
+	<resultMap type="Test" id="resMap">
+		<id property="id" column="id" />
+		<id property="name" column="name" />
+	</resultMap>
+
+	<!-- 新增 -->
+	<insert id="save" parameterType="Test">
+		insert into test(name) values (#{name})
+	</insert>
+	
+	<select id="queryNode" resultType="com.yu.hang.core.domain.note.TestNode">
+	  select name xx from test limit 1
+	</select>
+</mapper>
