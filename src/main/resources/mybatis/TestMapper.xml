@@ -1,17 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yu.hang.core.dao.TestMapper">
-	<resultMap type="Test" id="resMap">
-		<id property="id" column="id" />
-		<id property="name" column="name" />
+<mapper namespace="com.yu.hang.core.dao.TestDao">
+   <resultMap type="Test" id="TestMap">
+		  <id property ="id" column="id" />
+		  <id property ="name" column="name" />
+		  <id property ="s" column="s" />
 	</resultMap>
 
-	<!-- 新增 -->
-	<insert id="save" parameterType="Test">
-		insert into test(name) values (#{name})
+	<sql id="sqlTest">
+    	id,name,s
+	</sql>
+	
+	<sql id="whereTest">
+        <where>
+        	<!--<if test="startTime!=null">
+	        	<![CDATA[
+	        		and create_time>=#{startTime}
+	        	]]>
+	        </if>
+	        <if test="endTime!=null">
+	        	<![CDATA[
+	        		and create_time<=#{endTime}
+	        	]]>
+	        </if> -->
+        </where>
+    </sql>
+    
+    <insert id="save" keyProperty="id"	useGeneratedKeys="true">
+		insert into test(name,s) values
+		 (#{name},#{s})
+	</insert>
+    
+    <insert id="saveBatch" parameterType="java.util.List">
+		insert into test(name,s) values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.name},#{item.s})
+		</foreach>
 	</insert>
 	
-	<select id="queryNode" resultType="com.yu.hang.core.domain.note.TestNode">
-	  select name xx from test limit 1
-	</select>
+	<select id="queryById" resultMap="TestMap">
+     select   <include refid="sqlTest"/> FROM test  where id=#{id}
+    </select>
+
+    <select id="queryByParmas" parameterType="map" resultMap="TestMap">
+      select  <include refid="sqlTest"/> FROM test where <include refid="whereTest"/>
+        <if test="start!=null and size!=null">
+	        limit #{start},#{size}
+        </if>
+    </select>
+    
+    <select id="countByParmas"  parameterType="map" resultType="int">
+      select  count(1) FROM test where <include refid="whereTest"/>
+    </select>
+    
+   <update id="update">
+        UPDATE test set 
+        name=#{name},s=#{s}
+        WHERE id = #{id}
+    </update>    
 </mapper>

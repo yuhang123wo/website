@@ -1,8 +1,13 @@
 package com.yu.hang.core.service;
 
+import com.yu.hang.core.base.BaseService;
 import com.yu.hang.core.domain.Test;
-import com.yu.hang.core.domain.note.TestNode;
-
+/**
+ * @类说明：
+ * 
+ * @创建时间：2017-6-19 17:25:32
+ */
 public interface TestService extends BaseService<Test> {
-	TestNode queryNode();
+
+	
 }

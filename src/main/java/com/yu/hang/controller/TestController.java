@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yu.hang.core.domain.Test;
-import com.yu.hang.core.domain.note.TestNode;
 import com.yu.hang.core.service.TestService;
 
 @Controller
@@ -20,7 +19,7 @@ public class TestController {
 		Test t = new Test();
 		t.setName("g");
 		testService.save(t);
-		TestNode note = testService.queryNode();
+		Test note = testService.queryById(10L);
 		System.out.println(note.toString());
 	}
 }

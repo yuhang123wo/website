@@ -29,7 +29,7 @@
 	<!-- 扫描basePackage下所有以@MyBatisRepository标识的 接口-->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.yu.hang.core.dao" />
-		<property name="markerInterface" value="com.yu.hang.core.base.BaseMapper" />
+		<property name="markerInterface" value="com.yu.hang.core.base.BaseDao" />
 	</bean>
 
     <!-- 事务管理器, Jdbc单数据源事务 -->
