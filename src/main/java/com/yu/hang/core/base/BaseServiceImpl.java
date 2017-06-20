@@ -1,8 +1,12 @@
 package com.yu.hang.core.base;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.util.Assert;
 
 import com.yu.hang.util.ReflectionHelper;
@@ -24,7 +28,8 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements BaseServic
 	/**
 	 * dao 层实现类
 	 */
-	public abstract BaseDao<T> getDao(); 
+	public abstract BaseDao<T> getDao();
+
 	@Override
 	public void save(T t) {
 		Assert.isTrue(StringHelper.objectIsNotNull(t), "model为空");
@@ -55,5 +60,18 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements BaseServic
 	@Override
 	public T queryById(long id) {
 		return this.getDao().queryById(id);
+	}
+
+	@Override
+	public Page<T> queryPageByParmas(Map<String, Object> map, int pageNo, int pageSize) {
+		PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize);
+		if (map == null) {
+			map = new HashMap<String, Object>();
+		}
+		map.put("start", pageRequest.getOffset());
+		map.put("size", pageSize);
+		int count = this.getDao().countByParmas(map);
+		List<T> list = this.getDao().queryByParmas(map);
+		return new PageImpl<T>(list, pageRequest, count);
 	}
 }

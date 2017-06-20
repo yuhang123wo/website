@@ -24,4 +24,5 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
 	public BaseDao<Test> getDao() {
 		return testDao;
 	}
+
 }
