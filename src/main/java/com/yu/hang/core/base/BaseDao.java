@@ -15,18 +15,14 @@ public interface BaseDao<T extends BaseModel> {
    
 	/**
 	 * 保存业务对象
-	 * 
 	 * @param model
-	 * @throws Exception
 	 */
 	void save(T model);
 
 	/**
 	 * 批量保存业务对象列表
-	 * 
 	 * @param list
 	 * @return
-	 * @throws Exception
 	 */
 	int saveBatch(List<T> list);
 

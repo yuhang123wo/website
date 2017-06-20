@@ -3,6 +3,7 @@ package com.yu.hang.core.domain;
 import com.yu.hang.core.base.BaseModel;
 
 public class Test extends BaseModel {
+	private static final long serialVersionUID = 7973622664955258182L;
 	private String name;
 	private String s;
 
