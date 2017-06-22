@@ -43,14 +43,14 @@
     </select>
 
     <select id="queryByParmas" parameterType="map" resultMap="TestMap">
-      select  <include refid="sqlTest"/> FROM test where <include refid="whereTest"/>
+      select  <include refid="sqlTest"/> FROM test <include refid="whereTest"/>
         <if test="start!=null and size!=null">
 	        limit #{start},#{size}
         </if>
     </select>
     
     <select id="countByParmas"  parameterType="map" resultType="int">
-      select  count(1) FROM test where <include refid="whereTest"/>
+      select  count(1) FROM test <include refid="whereTest"/>
     </select>
     
    <update id="update">

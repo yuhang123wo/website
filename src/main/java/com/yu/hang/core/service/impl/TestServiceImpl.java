@@ -1,5 +1,8 @@
 package com.yu.hang.core.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -23,6 +26,11 @@ public class TestServiceImpl extends BaseServiceImpl<Test> implements TestServic
 
 	public BaseDao<Test> getDao() {
 		return testDao;
+	}
+
+	@Override
+	public List<Map<String, Object>> queryByMap() {
+		return testDao.queryByMap();
 	}
 
 }

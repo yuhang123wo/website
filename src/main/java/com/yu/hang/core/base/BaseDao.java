@@ -2,7 +2,10 @@ package com.yu.hang.core.base;
 
 import java.util.List;
 import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.security.access.annotation.Secured;
 
 /**
  * @类说明：
@@ -57,4 +60,7 @@ public interface BaseDao<T extends BaseModel> {
 	 * @return
 	 */
 	int update(T model);
+	
+	@Select("select id,name,s from test")
+	List<Map<String,Object>> queryByMap();
 }

@@ -1,5 +1,8 @@
 package com.yu.hang.core.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.yu.hang.core.base.BaseService;
 import com.yu.hang.core.domain.Test;
 /**
@@ -9,5 +12,5 @@ import com.yu.hang.core.domain.Test;
  */
 public interface TestService extends BaseService<Test> {
 
-	
+	List<Map<String,Object>> queryByMap();
 }
