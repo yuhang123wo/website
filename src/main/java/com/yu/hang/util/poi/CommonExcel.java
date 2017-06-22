@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -35,7 +36,6 @@ import com.yu.hang.util.ReflectionHelper;
  */
 public class CommonExcel {
 
-	private static String notnullerror = "请填入第{0}行的{1},{2}不能为空";
 	protected int colsizeN = 630;
 	protected int colsizeM = 1000;
 
@@ -47,7 +47,7 @@ public class CommonExcel {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<?> importExcel(Class<?> clazz, InputStream xls) throws Exception {
+	public List<Object> importExcel(Class<?> clazz, InputStream xls) throws Exception {
 		try {
 			// 取得Excel
 			HSSFWorkbook wb = new HSSFWorkbook(xls);
@@ -63,85 +63,18 @@ public class CommonExcel {
 				}
 			}
 			// 行循环
-			List<ImportModel> modelList = new ArrayList<ImportModel>(
-					sheet.getPhysicalNumberOfRows() * 2);
+			List<Object> modelList = new ArrayList<Object>(sheet.getPhysicalNumberOfRows() * 2);
 			for (int i = 2; i < sheet.getPhysicalNumberOfRows(); i++) {
 				// 数据模型
-				ImportModel model = (ImportModel) clazz.newInstance();
-				int nullCount = 0;
-				Exception nullError = null;
+				Object model = clazz.newInstance();
 				for (Field field : fieldList) {
 					ModelProp modelProp = field.getAnnotation(ModelProp.class);
 					HSSFCell cell = sheet.getRow(i).getCell(modelProp.colIndex());
-					try {
-						if (cell == null || cell.toString().length() == 0) {
-							nullCount++;
-							if (!modelProp.nullable()) {
-								nullError = new Exception(String.format(notnullerror, (i + 1),
-										modelProp.name(), modelProp.name()));
+					if (cell == null)
+						continue;
+					// 处理导入数据
+					typeChange(field, model, cell);
 
-							}
-						} else if (field.getType().equals(Date.class)) {
-							if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
-								BeanUtils.setProperty(model, field.getName(), new Date(
-										parseDate(parseString(cell))));
-							} else {
-								BeanUtils.setProperty(model, field.getName(), new Date(cell
-										.getDateCellValue().getTime()));
-
-							}
-						} else if (field.getType().equals(Timestamp.class)) {
-							if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
-								BeanUtils.setProperty(model, field.getName(), new Timestamp(
-										parseDate(parseString(cell))));
-							} else {
-								BeanUtils.setProperty(model, field.getName(), new Timestamp(cell
-										.getDateCellValue().getTime()));
-							}
-
-						} else if (field.getType().equals(java.sql.Date.class)) {
-							if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
-								BeanUtils.setProperty(model, field.getName(), new java.sql.Date(
-										parseDate(parseString(cell))));
-							} else {
-								BeanUtils.setProperty(model, field.getName(), new java.sql.Date(
-										cell.getDateCellValue().getTime()));
-							}
-						} else if (field.getType().equals(java.lang.Integer.class)) {
-							if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
-								BeanUtils.setProperty(model, field.getName(),
-										(int) cell.getNumericCellValue());
-							} else if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
-								BeanUtils.setProperty(model, field.getName(),
-										Integer.parseInt(parseString(cell)));
-							}
-						} else if (field.getType().equals(java.math.BigDecimal.class)) {
-							if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
-								BeanUtils.setProperty(model, field.getName(),
-										new BigDecimal(cell.getNumericCellValue()));
-							} else if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
-								BeanUtils.setProperty(model, field.getName(), new BigDecimal(
-										parseString(cell)));
-							}
-						} else {
-							if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
-								BeanUtils.setProperty(model, field.getName(),
-										new BigDecimal(cell.getNumericCellValue()));
-							} else if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
-								BeanUtils.setProperty(model, field.getName(), parseString(cell));
-							}
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-						new Exception(String.format(notnullerror, (i + 1), modelProp.name(),
-								e.getMessage()));
-					}
-				}
-				if (nullCount == fieldList.size()) {
-					break;
-				}
-				if (nullError != null) {
-					throw nullError;
 				}
 				modelList.add(model);
 			}
@@ -258,13 +191,13 @@ public class CommonExcel {
 	}
 
 	/**
+	 * 创建表头
 	 * 
 	 * @param fields
-	 * @param headRow
 	 * @param sheet
 	 * @param headStyle
-	 * @param map
 	 * @param rowSize
+	 * @return
 	 */
 	private int createHead(Field[] fields, HSSFSheet sheet, HSSFCellStyle headStyle, int rowSize) {
 		int colSize = 0;
@@ -336,5 +269,71 @@ public class CommonExcel {
 	 */
 	private void createMerged(HSSFSheet sheet, int colSize) {
 		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, colSize - 1));
+	}
+
+	/**
+	 * 类型转换
+	 * 
+	 * @param field
+	 * @param model
+	 * @param cell
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 * @throws ParseException
+	 */
+	private void typeChange(Field field, Object model, HSSFCell cell) {
+		try {
+			if (field.getType().equals(Date.class)) {
+				if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
+					BeanUtils.setProperty(model, field.getName(), new Date(
+							parseDate(parseString(cell))));
+				} else {
+					BeanUtils.setProperty(model, field.getName(), new Date(cell.getDateCellValue()
+							.getTime()));
+
+				}
+			} else if (field.getType().equals(Timestamp.class)) {
+				if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
+					BeanUtils.setProperty(model, field.getName(), new Timestamp(
+							parseDate(parseString(cell))));
+				} else {
+					BeanUtils.setProperty(model, field.getName(), new Timestamp(cell
+							.getDateCellValue().getTime()));
+				}
+
+			} else if (field.getType().equals(java.sql.Date.class)) {
+				if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
+					BeanUtils.setProperty(model, field.getName(), new java.sql.Date(
+							parseDate(parseString(cell))));
+				} else {
+					BeanUtils.setProperty(model, field.getName(), new java.sql.Date(cell
+							.getDateCellValue().getTime()));
+				}
+			} else if (field.getType().equals(java.lang.Integer.class)) {
+				if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
+					BeanUtils.setProperty(model, field.getName(), (int) cell.getNumericCellValue());
+				} else if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
+					BeanUtils.setProperty(model, field.getName(),
+							Integer.parseInt(parseString(cell)));
+				}
+			} else if (field.getType().equals(java.math.BigDecimal.class)) {
+				if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
+					BeanUtils.setProperty(model, field.getName(),
+							new BigDecimal(cell.getNumericCellValue()));
+				} else if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
+					BeanUtils
+							.setProperty(model, field.getName(), new BigDecimal(parseString(cell)));
+				}
+			} else {
+				if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
+					BeanUtils.setProperty(model, field.getName(),
+							new BigDecimal(cell.getNumericCellValue()));
+				} else if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
+					BeanUtils.setProperty(model, field.getName(), parseString(cell));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
