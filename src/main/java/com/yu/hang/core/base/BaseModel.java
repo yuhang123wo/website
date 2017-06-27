@@ -11,6 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @Date 2017年6月8日
  * @desc
  */
+@SuppressWarnings("serial")
 public class BaseModel implements java.io.Serializable {
 	/**
 	 * 主键
