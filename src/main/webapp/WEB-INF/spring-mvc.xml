@@ -51,6 +51,20 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
+<!-- tiles定义 -->
+	<bean id="tilesViewResolver"
+		class="org.springframework.web.servlet.view.tiles3.TilesViewResolver"
+		/>
+
+	<bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/base.xml</value>
+			</list>
+		</property>
+	</bean>
+	
     <!-- 定义JSP文件的位置 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
