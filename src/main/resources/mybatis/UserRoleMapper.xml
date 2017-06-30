@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.yu.hang.core.dao.UserRoleDao">
+   <resultMap type="UserRole" id="UserRoleMap">
+		  <id property ="userId" column="user_id" />
+		  <id property ="roleId" column="role_id" />
+	</resultMap>
+
+	<sql id="sqlUserRole">
+    	user_id,role_id
+	</sql>
+	
+	<sql id="whereUserRole">
+        <where>
+        	<!--<if test="startTime!=null">
+	        	<![CDATA[
+	        		and create_time>=#{startTime}
+	        	]]>
+	        </if>
+	        <if test="endTime!=null">
+	        	<![CDATA[
+	        		and create_time<=#{endTime}
+	        	]]>
+	        </if> -->
+        </where>
+    </sql>
+    
+    <insert id="save" keyProperty="id"	useGeneratedKeys="true">
+		insert into user_role(user_id,role_id) values
+		 (#{userId},#{roleId})
+	</insert>
+    
+    <insert id="saveBatch" parameterType="java.util.List">
+		insert into user_role(user_id,role_id) values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.userId},#{item.roleId})
+		</foreach>
+	</insert>
+	
+	<select id="queryById" resultMap="UserRoleMap">
+     select   <include refid="sqlUserRole"/> FROM user_role  where id=#{id}
+    </select>
+
+    <select id="queryByParmas" parameterType="map" resultMap="UserRoleMap">
+      select  <include refid="sqlUserRole"/> FROM user_role <include refid="whereUserRole"/>
+        <if test="start!=null and size!=null">
+	        limit #{start},#{size}
+        </if>
+    </select>
+    
+    <select id="countByParmas"  parameterType="map" resultType="int">
+      select  count(1) FROM user_role <include refid="whereUserRole"/>
+    </select>
+    
+   <update id="update">
+        UPDATE user_role set 
+        user_id=#{userId},role_id=#{roleId}
+        WHERE id = #{id}
+    </update>    
+</mapper>

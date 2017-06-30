@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.yu.hang.core.dao.MenuDao">
+   <resultMap type="Menu" id="MenuMap">
+		  <id property ="id" column="id" />
+		  <id property ="parentId" column="parent_id" />
+		  <id property ="name" column="name" />
+		  <id property ="url" column="url" />
+		  <id property ="icon" column="icon" />
+		  <id property ="remark" column="remark" />
+		  <id property ="isShow" column="is_show" />
+		  <id property ="createId" column="create_id" />
+		  <id property ="permission" column="permission" />
+		  <id property ="type" column="type" />
+		  <id property ="updateTime" column="update_time" />
+		  <id property ="createTime" column="create_time" />
+	</resultMap>
+
+	<sql id="sqlMenu">
+    	id,parent_id,name,url,icon,remark,is_show,create_id,permission,type,update_time,create_time
+	</sql>
+	
+	<sql id="whereMenu">
+        <where>
+        	<!--<if test="startTime!=null">
+	        	<![CDATA[
+	        		and create_time>=#{startTime}
+	        	]]>
+	        </if>
+	        <if test="endTime!=null">
+	        	<![CDATA[
+	        		and create_time<=#{endTime}
+	        	]]>
+	        </if> -->
+        </where>
+    </sql>
+    
+    <insert id="save" keyProperty="id"	useGeneratedKeys="true">
+		insert into menu(parent_id,name,url,icon,remark,is_show,create_id,permission,type,update_time,create_time) values
+		 (#{parentId},#{name},#{url},#{icon},#{remark},#{isShow},#{createId},#{permission},#{type},#{updateTime},#{createTime})
+	</insert>
+    
+    <insert id="saveBatch" parameterType="java.util.List">
+		insert into menu(parent_id,name,url,icon,remark,is_show,create_id,permission,type,update_time,create_time) values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.parentId},#{item.name},#{item.url},#{item.icon},#{item.remark},#{item.isShow},#{item.createId},#{item.permission},#{item.type},#{item.updateTime},#{item.createTime})
+		</foreach>
+	</insert>
+	
+	<select id="queryById" resultMap="MenuMap">
+     select   <include refid="sqlMenu"/> FROM menu  where id=#{id}
+    </select>
+
+    <select id="queryByParmas" parameterType="map" resultMap="MenuMap">
+      select  <include refid="sqlMenu"/> FROM menu <include refid="whereMenu"/>
+        <if test="start!=null and size!=null">
+	        limit #{start},#{size}
+        </if>
+    </select>
+    
+    <select id="countByParmas"  parameterType="map" resultType="int">
+      select  count(1) FROM menu <include refid="whereMenu"/>
+    </select>
+    
+   <update id="update">
+        UPDATE menu set 
+        parent_id=#{parentId},name=#{name},url=#{url},icon=#{icon},remark=#{remark},is_show=#{isShow},create_id=#{createId},permission=#{permission},type=#{type},update_time=#{updateTime},create_time=#{createTime}
+        WHERE id = #{id}
+    </update>    
+</mapper>

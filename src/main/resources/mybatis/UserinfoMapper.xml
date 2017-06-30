@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.yu.hang.core.dao.UserinfoDao">
+   <resultMap type="Userinfo" id="UserinfoMap">
+		  <id property ="id" column="id" />
+		  <id property ="username" column="username" />
+		  <id property ="password" column="password" />
+		  <id property ="realname" column="realname" />
+		  <id property ="img" column="img" />
+		  <id property ="mobile" column="mobile" />
+		  <id property ="email" column="email" />
+		  <id property ="sex" column="sex" />
+		  <id property ="address" column="address" />
+		  <id property ="birthday" column="birthday" />
+		  <id property ="status" column="status" />
+		  <id property ="type" column="type" />
+		  <id property ="deptId" column="dept_id" />
+		  <id property ="updateTime" column="update_time" />
+		  <id property ="createTime" column="create_time" />
+	</resultMap>
+
+	<sql id="sqlUserinfo">
+    	id,username,password,realname,img,mobile,email,sex,address,birthday,status,type,dept_id,update_time,create_time
+	</sql>
+	
+	<sql id="whereUserinfo">
+        <where>
+        	<!--<if test="startTime!=null">
+	        	<![CDATA[
+	        		and create_time>=#{startTime}
+	        	]]>
+	        </if>
+	        <if test="endTime!=null">
+	        	<![CDATA[
+	        		and create_time<=#{endTime}
+	        	]]>
+	        </if> -->
+        </where>
+    </sql>
+    
+    <insert id="save" keyProperty="id"	useGeneratedKeys="true">
+		insert into userinfo(username,password,realname,img,mobile,email,sex,address,birthday,status,type,dept_id,update_time,create_time) values
+		 (#{username},#{password},#{realname},#{img},#{mobile},#{email},#{sex},#{address},#{birthday},#{status},#{type},#{deptId},#{updateTime},#{createTime})
+	</insert>
+    
+    <insert id="saveBatch" parameterType="java.util.List">
+		insert into userinfo(username,password,realname,img,mobile,email,sex,address,birthday,status,type,dept_id,update_time,create_time) values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.username},#{item.password},#{item.realname},#{item.img},#{item.mobile},#{item.email},#{item.sex},#{item.address},#{item.birthday},#{item.status},#{item.type},#{item.deptId},#{item.updateTime},#{item.createTime})
+		</foreach>
+	</insert>
+	
+	<select id="queryById" resultMap="UserinfoMap">
+     select   <include refid="sqlUserinfo"/> FROM userinfo  where id=#{id}
+    </select>
+
+    <select id="queryByParmas" parameterType="map" resultMap="UserinfoMap">
+      select  <include refid="sqlUserinfo"/> FROM userinfo <include refid="whereUserinfo"/>
+        <if test="start!=null and size!=null">
+	        limit #{start},#{size}
+        </if>
+    </select>
+    
+    <select id="countByParmas"  parameterType="map" resultType="int">
+      select  count(1) FROM userinfo <include refid="whereUserinfo"/>
+    </select>
+    
+   <update id="update">
+        UPDATE userinfo set 
+        username=#{username},password=#{password},realname=#{realname},img=#{img},mobile=#{mobile},email=#{email},sex=#{sex},address=#{address},birthday=#{birthday},status=#{status},type=#{type},dept_id=#{deptId},update_time=#{updateTime},create_time=#{createTime}
+        WHERE id = #{id}
+    </update>    
+</mapper>

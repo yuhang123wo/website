@@ -11,8 +11,8 @@ public class LoginController {
 		return "manage.index";
 	}
 	
-	@RequestMapping("newFile")
+	@RequestMapping("login")
 	public String newFile(){
-		return "newFile.index";
+		return "login";
 	}
 }

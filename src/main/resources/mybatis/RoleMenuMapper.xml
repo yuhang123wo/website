@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.yu.hang.core.dao.RoleMenuDao">
+   <resultMap type="RoleMenu" id="RoleMenuMap">
+		  <id property ="roleId" column="role_id" />
+		  <id property ="menuId" column="menu_id" />
+	</resultMap>
+
+	<sql id="sqlRoleMenu">
+    	role_id,menu_id
+	</sql>
+	
+	<sql id="whereRoleMenu">
+        <where>
+        	<!--<if test="startTime!=null">
+	        	<![CDATA[
+	        		and create_time>=#{startTime}
+	        	]]>
+	        </if>
+	        <if test="endTime!=null">
+	        	<![CDATA[
+	        		and create_time<=#{endTime}
+	        	]]>
+	        </if> -->
+        </where>
+    </sql>
+    
+    <insert id="save" keyProperty="id"	useGeneratedKeys="true">
+		insert into role_menu(role_id,menu_id) values
+		 (#{roleId},#{menuId})
+	</insert>
+    
+    <insert id="saveBatch" parameterType="java.util.List">
+		insert into role_menu(role_id,menu_id) values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.roleId},#{item.menuId})
+		</foreach>
+	</insert>
+	
+	<select id="queryById" resultMap="RoleMenuMap">
+     select   <include refid="sqlRoleMenu"/> FROM role_menu  where id=#{id}
+    </select>
+
+    <select id="queryByParmas" parameterType="map" resultMap="RoleMenuMap">
+      select  <include refid="sqlRoleMenu"/> FROM role_menu <include refid="whereRoleMenu"/>
+        <if test="start!=null and size!=null">
+	        limit #{start},#{size}
+        </if>
+    </select>
+    
+    <select id="countByParmas"  parameterType="map" resultType="int">
+      select  count(1) FROM role_menu <include refid="whereRoleMenu"/>
+    </select>
+    
+   <update id="update">
+        UPDATE role_menu set 
+        role_id=#{roleId},menu_id=#{menuId}
+        WHERE id = #{id}
+    </update>    
+</mapper>
