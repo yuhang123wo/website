@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,7 @@ canvas {
 }
 </style>
 <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
-<script src="${pageContext.request.contextPath}/js/verificationNumbers.js"></script>
+<script src="${pageContext.request.contextPath}/js/verificationNumbers.js?v=0.2"></script>
 <script src="${pageContext.request.contextPath}/js/Particleground.js"></script>
 <script>
 $(document).ready(function() {
@@ -29,8 +30,20 @@ $(document).ready(function() {
     lineColor: '#5cbdaa'
   });
   //验证码
-  createCode();
+  validate();
 });
+
+function validate(){
+	  $.ajax({
+	     type: 'POST',
+	     url: '${pageContext.request.contextPath}/captcha',
+	     data: {a:'b'},
+	     dataType : 'json',
+	     success:function(data){
+	    	 createCode(data);
+	     }
+	   });
+	 }
 </script>
 </head>
 <body>
@@ -40,18 +53,21 @@ $(document).ready(function() {
   <strong>后台管理系统</strong>
   <em>Management System</em>
  </dt>
+  <dt>
+  <em><font color="red">${msg }</font></em>
+ </dt>
  <dd class="user_icon">
-  <input type="text" placeholder="账号" class="login_txtbx" name="username"/>
+  <input type="text" placeholder="账号" class="login_txtbx" name="username" value="${username}"/>
  </dd>
  <dd class="pwd_icon">
   <input type="password" placeholder="密码" class="login_txtbx" name="password"/>
  </dd>
  <dd class="val_icon">
   <div class="checkcode">
-    <input type="text" id="J_codetext" placeholder="验证码" maxlength="4" class="login_txtbx">
-    <canvas class="J_codeimg" id="myCanvas" onclick="createCode()">对不起，您的浏览器不支持canvas，请下载最新版浏览器!</canvas>
+    <input type="text" name="captcha" placeholder="验证码" maxlength="4" class="login_txtbx">
+    <canvas class="J_codeimg" id="myCanvas" onclick="validate()">对不起，您的浏览器不支持canvas，请下载最新版浏览器!</canvas>
   </div>
-  <input type="button" value="验证码核验" class="ver_btn" onClick="validate();">
+  <input type="button" value="验证码刷新" class="ver_btn" onClick="validate();">
  </dd>
  <dd>
   <input type="submit" value="立即登录" class="submit_btn"/>

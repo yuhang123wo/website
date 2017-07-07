@@ -47,6 +47,8 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/login = authc
+				/loginOut=logout
+				/captcha=anon
 				/css/** =anon
 				/js/** =anon
 				/images/** =anon

@@ -19,7 +19,7 @@ import org.apache.shiro.web.util.WebUtils;
  * @desc
  */
 public class FormAuthenticationCaptchaFilter extends FormAuthenticationFilter {
-
+	public static final String DEFAULT_CAPTCHA_PARAM = "captcha";
 	private String loginPrefix;
 	private String fail;
 
@@ -36,6 +36,25 @@ public class FormAuthenticationCaptchaFilter extends FormAuthenticationFilter {
 		} catch (AuthenticationException e) {
 			return onLoginFailure(token, getFail(), e, request, response);
 		}
+	}
+
+	protected AuthenticationToken createToken(
+
+	ServletRequest request, ServletResponse response) {
+
+		String username = getUsername(request);
+
+		String password = getPassword(request);
+
+		String captcha = getCaptcha(request);
+
+		return new UsernamePasswordCaptchaToken(username, password.toCharArray(), captcha);
+
+	}
+
+	protected String getCaptcha(ServletRequest request) {
+		return WebUtils.getCleanParam(request, DEFAULT_CAPTCHA_PARAM);
+
 	}
 
 	protected void issueSuccessRedirect(ServletRequest request, ServletResponse response)

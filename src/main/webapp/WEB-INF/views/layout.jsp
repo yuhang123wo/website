@@ -37,7 +37,7 @@ $(function(){
  <ul class="rt_nav">
   <li><a href="http://www.mycodes.net" target="_blank" class="website_icon">站点首页</a></li>
   <li><a href="#" class="set_icon">账号设置</a></li>
-  <li><a href="login.html" class="quit_icon">安全退出</a></li>
+  <li><a href="${path}/loginOut" class="quit_icon">安全退出</a></li>
  </ul>
 </header>
 <!--aside nav-->
