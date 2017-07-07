@@ -30,24 +30,21 @@ $(document).ready(function() {
   });
   //验证码
   createCode();
-  //测试提交，对接程序删除即可
-  $(".submit_btn").click(function(){
-	  location.href="index.html";
-	  });
 });
 </script>
 </head>
 <body>
+<form action="${path}login" method="post">
 <dl class="admin_login">
  <dt>
-  <strong>站点后台管理系统</strong>
+  <strong>后台管理系统</strong>
   <em>Management System</em>
  </dt>
  <dd class="user_icon">
-  <input type="text" placeholder="账号" class="login_txtbx"/>
+  <input type="text" placeholder="账号" class="login_txtbx" name="username"/>
  </dd>
  <dd class="pwd_icon">
-  <input type="password" placeholder="密码" class="login_txtbx"/>
+  <input type="password" placeholder="密码" class="login_txtbx" name="password"/>
  </dd>
  <dd class="val_icon">
   <div class="checkcode">
@@ -57,12 +54,13 @@ $(document).ready(function() {
   <input type="button" value="验证码核验" class="ver_btn" onClick="validate();">
  </dd>
  <dd>
-  <input type="button" value="立即登录" class="submit_btn"/>
+  <input type="submit" value="立即登录" class="submit_btn"/>
  </dd>
  <dd>
   <p>© 版权所有</p>
-  <p>20080224-1</p>
+  <p>20200224-1</p>
  </dd>
 </dl>
+</form>
 </body>
 </html>
