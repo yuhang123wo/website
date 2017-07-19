@@ -49,6 +49,7 @@
 				/login = authc
 				/loginOut=logout
 				/captcha=anon
+				/test/** =anon
 				/css/** =anon
 				/js/** =anon
 				/images/** =anon

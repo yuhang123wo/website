@@ -562,6 +562,11 @@
 			<artifactId>tiles-template</artifactId>
 			<version>3.0.5</version>
 		</dependency>
+		 <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.3.0</version>
+        </dependency>
 		<!-- org.apache.tiles -->
 	</dependencies>
 
