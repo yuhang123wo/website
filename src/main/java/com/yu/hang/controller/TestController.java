@@ -32,6 +32,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.yu.hang.core.domain.Test;
 import com.yu.hang.core.service.TestService;
+import com.yu.hang.core.service.UserinfoService;
 import com.yu.hang.util.poi.CommonExcel;
 
 @Controller
@@ -39,6 +40,8 @@ public class TestController {
 
 	@Resource
 	private TestService testService;
+	@Resource
+	private UserinfoService userinfoService;
 
 	@RequestMapping(value = "/importEmployee")
 	public void uploadExcel(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
@@ -99,9 +102,11 @@ public class TestController {
 	}
 
 	@RequestMapping("test/testm")
-	public void testm() throws Exception {
-		String text = "weixin://wxpay/bizpayurl?pr=XmlAkwW";
-		generateQRCode(text, 500, 500, "png");
+	@ResponseBody
+	public Object testm() throws Exception {
+		return userinfoService.listAllMenu();
+//		String text = "weixin://wxpay/bizpayurl?pr=XmlAkwW";
+//		generateQRCode(text, 500, 500, "png");
 	}
 
 	private static String generateQRCode(String text, int width, int height, String format)

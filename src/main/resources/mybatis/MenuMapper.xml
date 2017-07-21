@@ -24,6 +24,9 @@
 	
 	<sql id="whereMenu">
         <where>
+        <if test="parentId!=null">
+            parent_id =#{parentId} 
+        </if>
         	<!--<if test="startTime!=null">
 	        	<![CDATA[
 	        		and create_time>=#{startTime}

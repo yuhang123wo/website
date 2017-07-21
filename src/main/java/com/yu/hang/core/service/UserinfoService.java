@@ -1,7 +1,10 @@
 package com.yu.hang.core.service;
 
+import java.util.List;
+
 import com.yu.hang.core.base.BaseService;
 import com.yu.hang.core.domain.Userinfo;
+import com.yu.hang.core.domain.note.TreeNode;
 
 /**
  * @类说明：
@@ -10,5 +13,10 @@ import com.yu.hang.core.domain.Userinfo;
  */
 public interface UserinfoService extends BaseService<Userinfo> {
 
-	
+	/**
+	 * 取所有菜单
+	 * 
+	 * @return
+	 */
+	List<TreeNode> listAllMenu();
 }

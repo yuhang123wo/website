@@ -1,6 +1,8 @@
 package com.yu.hang.core.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.yu.hang.core.base.BaseModel;
 
@@ -25,6 +27,19 @@ public class Menu extends BaseModel {
 	private int type;
 	private Date updateTime;
 	private Date createTime;
+
+	private List<Menu> child = new ArrayList<Menu>();
+
+	// UI
+	public static int isRoot = 0;
+
+	public List<Menu> getChild() {
+		return child;
+	}
+
+	public void setChild(List<Menu> child) {
+		this.child = child;
+	}
 
 	public int getParentId() {
 		return this.parentId;
