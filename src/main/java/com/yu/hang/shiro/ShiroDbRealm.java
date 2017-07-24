@@ -46,7 +46,6 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			throw new UserNotException();
 		}
 		try {
-			u.setPassword(MD5.md5Encode(Constant.PWD_PREFIX + token.getPassword()));
 			AuthenticationInfo info = new SimpleAuthenticationInfo(new ShiroUser(u.getId(),
 					u.getUsername(), u.getRealname(), u.getImg(), u.getStatus()), u.getPassword(),
 					getName());

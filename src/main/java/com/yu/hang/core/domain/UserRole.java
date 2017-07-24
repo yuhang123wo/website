@@ -12,7 +12,11 @@ import com.yu.hang.core.base.BaseModel;
 public class UserRole extends BaseModel {
 
 
-    private int userId;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1953478582927065466L;
+	private int userId;
     private int roleId;
 
     public int getUserId() {

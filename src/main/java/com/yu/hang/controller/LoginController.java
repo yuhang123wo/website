@@ -13,14 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yu.hang.core.domain.Role;
 import com.yu.hang.exception.CaptchaException;
+import com.yu.hang.exception.UserNotException;
+import com.yu.hang.util.CopyUtil;
+import com.yu.hang.vo.RoleVo;
 
 @Controller
 public class LoginController {
 
 	@RequestMapping("index")
 	public String index() {
-		return "manage.index";
+		return "role.index";
 	}
 
 	/**
@@ -57,6 +61,9 @@ public class LoginController {
 		if (error.equals(CaptchaException.class.getName())) {
 			msg = "验证码错误";
 		}
+		if (error.equals(UserNotException.class.getName())) {
+			msg = "用户不存在";
+		}
 		model.addAttribute("msg", msg);
 		return "login";
 	}
@@ -70,4 +77,14 @@ public class LoginController {
 		return code;
 	}
 
+	public static void main(String[] args) {
+		RoleVo v = new RoleVo();
+		v.setCreateId(1);
+		v.setId(1L);
+		v.setName("dfad");
+		v.setRemark("remark");
+		Role r = new Role();
+		CopyUtil.copyProperties(r, v);
+		System.out.println(r);
+	}
 }

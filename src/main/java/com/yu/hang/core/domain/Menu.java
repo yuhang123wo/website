@@ -1,8 +1,6 @@
 package com.yu.hang.core.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import com.yu.hang.core.base.BaseModel;
 

@@ -12,7 +12,11 @@ import com.yu.hang.core.base.BaseModel;
 public class RoleMenu extends BaseModel {
 
 
-    private int roleId;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 270500829206318755L;
+	private int roleId;
     private int menuId;
 
     public int getRoleId() {

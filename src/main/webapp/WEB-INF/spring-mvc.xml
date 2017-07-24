@@ -73,6 +73,9 @@
 
     <!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL-->
     <mvc:default-servlet-handler/>
+    
+    <!-- 异常统一处理 -->
+	<bean id="exceptionResolver" class="com.yu.hang.core.exception.ExceptionHandler"/>
 
    <!-- 定义无Controller的path<->view直接映射 -->
 	<mvc:view-controller path="/" view-name="redirect:/index"/>

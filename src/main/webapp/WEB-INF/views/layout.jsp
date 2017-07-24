@@ -47,9 +47,9 @@ $(function(){
  <ul>
   <li>
    <dl>
-    <dt>常用布局示例</dt>
+    <dt>系统管理</dt>
     <!--当前链接则添加class:active-->
-    <dd><a href="${path }/index" class="seq" seq="10">商品列表示例</a></dd>
+    <dd><a href="${path }/index" class="seq" seq="10">角色管理</a></dd>
     <dd><a href="${path}/newFile" class="seq" seq="11">商品详情示例</a></dd>
     <dd><a href="recycle_bin.html">商品回收站示例</a></dd>
    </dl>

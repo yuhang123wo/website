@@ -17,10 +17,10 @@
 		</put-list-attribute>		
 	</definition>
 	
-	<definition name="manage.index" extends="manage.layout">
+	<definition name="role.index" extends="manage.layout">
 		<put-attribute name="seq" value="10"></put-attribute>
-		<put-attribute name="title" value="运营后台首页" />
-		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
+		<put-attribute name="title" value="角色管理" />
+		<put-attribute name="body" value="/WEB-INF/views/sys/role-list.jsp" />
 		<put-list-attribute name="scriptItems" inherit="true">
 		</put-list-attribute>
 	</definition>
