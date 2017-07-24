@@ -28,18 +28,8 @@ public class Menu extends BaseModel {
 	private Date updateTime;
 	private Date createTime;
 
-	private List<Menu> child = new ArrayList<Menu>();
-
 	// UI
 	public static int isRoot = 0;
-
-	public List<Menu> getChild() {
-		return child;
-	}
-
-	public void setChild(List<Menu> child) {
-		this.child = child;
-	}
 
 	public int getParentId() {
 		return this.parentId;

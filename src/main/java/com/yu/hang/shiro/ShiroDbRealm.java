@@ -1,5 +1,7 @@
 package com.yu.hang.shiro;
 
+import javax.annotation.Resource;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -11,13 +13,20 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.util.StringUtils;
 
 import com.yu.hang.core.domain.Userinfo;
+import com.yu.hang.core.service.UserinfoService;
 import com.yu.hang.exception.CaptchaException;
+import com.yu.hang.exception.UserNotException;
+import com.yu.hang.util.Constant;
 import com.yu.hang.util.MD5;
 
 public class ShiroDbRealm extends AuthorizingRealm {
 
+	@Resource
+	private UserinfoService userinfoService;
+
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+
 		return null;
 	}
 
@@ -32,16 +41,19 @@ public class ShiroDbRealm extends AuthorizingRealm {
 				|| !captcha.equalsIgnoreCase(exitCode)) {
 			throw new CaptchaException();
 		}
+		Userinfo u = userinfoService.queryByName(token.getUsername());
+		if (u == null) {
+			throw new UserNotException();
+		}
 		try {
-			Userinfo u = new Userinfo();
-			u.setUsername("1");
-			u.setPassword(MD5.md5Encode("1"));
-			AuthenticationInfo info = new SimpleAuthenticationInfo(u, u.getPassword(), getName());
+			u.setPassword(MD5.md5Encode(Constant.PWD_PREFIX + token.getPassword()));
+			AuthenticationInfo info = new SimpleAuthenticationInfo(new ShiroUser(u.getId(),
+					u.getUsername(), u.getRealname(), u.getImg(), u.getStatus()), u.getPassword(),
+					getName());
 			return info;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-
 }

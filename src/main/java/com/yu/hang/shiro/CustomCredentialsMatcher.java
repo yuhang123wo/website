@@ -5,6 +5,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 
+import com.yu.hang.util.Constant;
 import com.yu.hang.util.MD5;
 
 /**
@@ -19,10 +20,15 @@ public class CustomCredentialsMatcher extends SimpleCredentialsMatcher {
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		Object accountCredentials = getCredentials(info);
 		try {
-			return equals(MD5.md5Encode(String.valueOf(token.getPassword())), accountCredentials);
+			return equals(MD5.md5Encode(Constant.PWD_PREFIX + String.valueOf(token.getPassword())),
+					accountCredentials);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(MD5.md5Encode(Constant.PWD_PREFIX + "1"));
 	}
 }

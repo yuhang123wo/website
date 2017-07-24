@@ -19,4 +19,13 @@ public interface UserinfoService extends BaseService<Userinfo> {
 	 * @return
 	 */
 	List<TreeNode> listAllMenu();
+
+	/**
+	 * 根据用户名密码查询
+	 * 
+	 * @param username
+	 * @param pwd
+	 * @return
+	 */
+	Userinfo queryByName(String username);
 }

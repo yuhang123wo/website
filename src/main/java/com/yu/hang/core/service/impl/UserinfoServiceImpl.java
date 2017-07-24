@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.yu.hang.core.base.BaseDao;
 import com.yu.hang.core.base.BaseServiceImpl;
@@ -62,5 +63,16 @@ public class UserinfoServiceImpl extends BaseServiceImpl<Userinfo> implements Us
 			node.getChildren().add(n);
 		}
 		return node;
+	}
+
+	@Override
+	public Userinfo queryByName(String username) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("username", username);
+		List<Userinfo> list = userinfoDao.queryByParmas(map);
+		if (!CollectionUtils.isEmpty(list)) {
+			return list.get(0);
+		}
+		return null;
 	}
 }
