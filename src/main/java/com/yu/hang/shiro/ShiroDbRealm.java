@@ -16,8 +16,6 @@ import com.yu.hang.core.domain.Userinfo;
 import com.yu.hang.core.service.UserinfoService;
 import com.yu.hang.exception.CaptchaException;
 import com.yu.hang.exception.UserNotException;
-import com.yu.hang.util.Constant;
-import com.yu.hang.util.MD5;
 
 public class ShiroDbRealm extends AuthorizingRealm {
 
@@ -35,13 +33,15 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			throws AuthenticationException {
 		UsernamePasswordCaptchaToken token = (UsernamePasswordCaptchaToken) authcToken;
 		String captcha = token.getCaptcha();
-		String exitCode = (String) SecurityUtils.getSubject().getSession()
-				.getAttribute("captchaTxt");
-		if (StringUtils.isEmpty(captcha) || StringUtils.isEmpty(exitCode)
-				|| !captcha.equalsIgnoreCase(exitCode)) {
-			throw new CaptchaException();
-		}
-		Userinfo u = userinfoService.queryByName(token.getUsername());
+		//TODO test
+//		String exitCode = (String) SecurityUtils.getSubject().getSession()
+//				.getAttribute("captchaTxt");
+//		if (StringUtils.isEmpty(captcha) || StringUtils.isEmpty(exitCode)
+//				|| !captcha.equalsIgnoreCase(exitCode)) {
+//			throw new CaptchaException();
+//		}
+//		Userinfo u = userinfoService.queryByName(token.getUsername());
+		Userinfo u = userinfoService.queryByName("1");
 		if (u == null) {
 			throw new UserNotException();
 		}

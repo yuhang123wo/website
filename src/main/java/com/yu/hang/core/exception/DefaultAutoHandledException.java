@@ -24,12 +24,12 @@ public class DefaultAutoHandledException extends RuntimeException {
 	}
 
 	public DefaultAutoHandledException(String description) {
-		super();
+		super(description);
 		this.description = description;
 	}
 
 	public DefaultAutoHandledException(String description, Object responseObject) {
-		super();
+		super(description);
 		this.description = description;
 		this.responseObject = responseObject;
 	}

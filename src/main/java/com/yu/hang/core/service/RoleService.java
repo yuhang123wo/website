@@ -9,6 +9,10 @@ import com.yu.hang.core.domain.Role;
  * @创建时间：2017-6-30 15:23:59
  */
 public interface RoleService extends BaseService<Role> {
+	/**
+	 * 
+	 * @param role
+	 */
+	void addOrUpdateRole(Role role);
 
-	
 }

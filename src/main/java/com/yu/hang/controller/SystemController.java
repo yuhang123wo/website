@@ -5,12 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yu.hang.core.domain.Role;
 import com.yu.hang.core.service.RoleService;
@@ -49,9 +48,10 @@ public class SystemController {
 	 * @return
 	 */
 	@RequestMapping("role/add")
-	public ResultMsg addRole(@Valid RoleVo role, BindingResult result) {
+	@ResponseBody
+	public ResultMsg addRole(RoleVo role) {
 		ValidateUtil.validate(role);
-		System.out.println(result.getErrorCount());
+		
 		return null;
 	}
 
@@ -62,7 +62,8 @@ public class SystemController {
 	 * @return
 	 */
 	@RequestMapping("role/edit")
-	public ResultMsg editRole(Role role) {
+	public ResultMsg editRole(RoleVo role) {
+		ValidateUtil.validate(role);
 		return null;
 	}
 }

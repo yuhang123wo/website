@@ -1,7 +1,5 @@
 package com.yu.hang.vo;
 
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -15,7 +13,6 @@ public class RoleVo extends BaseModel {
 	private String name;
 	@Length(max = 200, message = "备注长度不能超过200")
 	private String remark;
-	@NotNull(message = "未选择创建者")
 	private Integer createId;
 
 	public String getName() {

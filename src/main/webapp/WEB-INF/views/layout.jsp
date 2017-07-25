@@ -21,7 +21,6 @@ $(function(){
 	var seq = '<tiles:insertAttribute name="seq"></tiles:insertAttribute>';
 	if(seq != '-1'){
 		var aimMenu = $('.seq[seq="'+seq+'"]');
-		alert(aimMenu.length);
 		if(aimMenu.length > 0){		
 			$(aimMenu[0]).addClass('active');
 		}

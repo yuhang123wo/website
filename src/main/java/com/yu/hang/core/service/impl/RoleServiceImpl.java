@@ -24,4 +24,8 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
 	public BaseDao<Role> getDao() {
 		return roleDao;
 	}
+
+	@Override
+	public void addOrUpdateRole(Role role) {
+	}
 }
