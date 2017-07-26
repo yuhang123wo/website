@@ -1,4 +1,4 @@
-package com.go2.shipping.common.mapper;
+package com.yu.hang.common.mapper;
 
 import java.io.IOException;
 

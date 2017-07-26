@@ -15,7 +15,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.go2.shipping.common.mapper.JsonMapper;
+import com.yu.hang.common.mapper.JsonMapper;
 import com.yu.hang.util.Constant;
 import com.yu.hang.util.ResultMsg;
 

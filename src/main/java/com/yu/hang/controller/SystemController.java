@@ -15,6 +15,7 @@ import com.yu.hang.core.domain.Role;
 import com.yu.hang.core.service.RoleService;
 import com.yu.hang.core.validate.ValidateUtil;
 import com.yu.hang.shiro.ShiroUser;
+import com.yu.hang.util.CopyUtil;
 import com.yu.hang.util.ResultMsg;
 import com.yu.hang.util.UserUtil;
 import com.yu.hang.vo.RoleVo;
@@ -51,8 +52,8 @@ public class SystemController {
 	@ResponseBody
 	public ResultMsg addRole(RoleVo role) {
 		ValidateUtil.validate(role);
-		
-		return null;
+		roleService.save(CopyUtil.copyProperties(new Role(), role));
+		return new ResultMsg().success();
 	}
 
 	/**
@@ -64,6 +65,8 @@ public class SystemController {
 	@RequestMapping("role/edit")
 	public ResultMsg editRole(RoleVo role) {
 		ValidateUtil.validate(role);
+		Role v = CopyUtil.copyProperties(new Role(), role, new String[] { "name" });
+		System.out.println(v);
 		return null;
 	}
 }

@@ -8,6 +8,10 @@ public class ResultMsg {
 	public static int SUCCESS = 0;
 	public static int FAIL = -1;
 
+	public ResultMsg() {
+		super();
+	}
+
 	public ResultMsg(int code, String msg) {
 		super();
 		this.code = code;
@@ -21,8 +25,7 @@ public class ResultMsg {
 		this.data = data;
 	}
 
-	public ResultMsg success(String msg) {
-		this.msg = msg;
+	public ResultMsg success() {
 		this.code = SUCCESS;
 		return this;
 	}

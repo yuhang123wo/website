@@ -4,24 +4,30 @@ import java.beans.PropertyDescriptor;
 import java.util.Collection;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**   */
 /**
- * CopyUtil
  * 
- * @author Jkallen
+ * @author yuhang
+ * @Date 2017年7月26日
+ * @desc
  */
 public class CopyUtil {
+
+	private static Logger logger = LoggerFactory.getLogger(CopyUtil.class);
 
 	/**   */
 	/**
 	 * Copy properties of orig to dest Exception the Entity and Collection Type
 	 * 
+	 * @param <K>
+	 * 
 	 * @param dest
 	 * @param orig
 	 * @return the dest bean
 	 */
-	public static Object copyProperties(Object dest, Object orig) {
+	public static <K, T> K copyProperties(K dest, T orig) {
 		if (dest == null || orig == null) {
 			return dest;
 		}
@@ -37,16 +43,15 @@ public class CopyUtil {
 							Object value = PropertyUtils.getProperty(orig, destDesc[i].getName());
 							PropertyUtils.setProperty(dest, destDesc[i].getName(), value);
 						} catch (Exception ex) {
+							logger.error("copy element exception{}", ex);
 						}
 					}
 				}
 			}
-
-			return dest;
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.error("copyPropertis exception{}", ex);
 		}
-		return destDesc;
+		return dest;
 	}
 
 	/**   */
@@ -58,7 +63,7 @@ public class CopyUtil {
 	 * @param ignores
 	 * @return the dest bean
 	 */
-	public static Object copyProperties(Object dest, Object orig, String[] ignores) {
+	public static <K, T> K copyProperties(K dest, T orig, String[] ignores) {
 		if (dest == null || orig == null) {
 			return dest;
 		}
@@ -79,12 +84,10 @@ public class CopyUtil {
 					}
 				}
 			}
-
-			return dest;
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.error("copyPropertis exception{}", ex);
 		}
-		return destDesc;
+		return dest;
 	}
 
 	static boolean contains(String[] ignores, String name) {
@@ -95,7 +98,6 @@ public class CopyUtil {
 				break;
 			}
 		}
-
 		return ignored;
 	}
 }

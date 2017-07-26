@@ -11,4 +11,8 @@ public class Constant {
 	 * 未知异常
 	 */
 	public static final String UNKNOWN_EXCEPTION = "未知异常";
+	/**
+	 * 手机号正则表达式
+	 */
+	public static final String PHONE_REG = "^(0|86|17951)?(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$";
 }

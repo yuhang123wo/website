@@ -8,7 +8,7 @@ import javax.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.go2.shipping.common.mapper.JsonMapper;
+import com.yu.hang.common.mapper.JsonMapper;
 import com.yu.hang.core.exception.ValiAutoHandedException;
 import com.yu.hang.core.exception.ValidatorSingleFactory;
 import com.yu.hang.util.Constant;

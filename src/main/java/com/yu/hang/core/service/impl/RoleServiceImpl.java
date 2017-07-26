@@ -17,15 +17,11 @@ import com.yu.hang.core.service.RoleService;
  */
 @Service("roleService")
 public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleService {
-        
+
 	@Resource
 	private RoleDao roleDao;
-	
+
 	public BaseDao<Role> getDao() {
 		return roleDao;
-	}
-
-	@Override
-	public void addOrUpdateRole(Role role) {
 	}
 }
