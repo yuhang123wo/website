@@ -19,6 +19,7 @@ import com.yu.hang.core.validate.ValidateUtil;
 import com.yu.hang.shiro.ShiroUser;
 import com.yu.hang.util.CopyUtil;
 import com.yu.hang.util.ResultMsg;
+import com.yu.hang.util.StringHelper;
 import com.yu.hang.util.UserUtil;
 import com.yu.hang.vo.RoleVo;
 
@@ -35,14 +36,17 @@ public class SystemController {
 	 * @return
 	 */
 	@RequestMapping("role/list")
-	public String roleList(Model model, HttpServletRequest request) {
+	public String roleList(Model model, HttpServletRequest request,String name) {
 		int pageNo = ServletRequestUtils.getIntParameter(request, "pageNo", 1);
 		int pageSize = ServletRequestUtils.getIntParameter(request, "pageSize", 10);
 		ShiroUser user = UserUtil.getUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("createId", user.getId());
+		map.put("nameLike",StringHelper.addLike(name));
 		Page<Role> list = roleService.queryPageByParmas(map, pageNo, pageSize);
 		model.addAttribute("roleList", list);
+		model.addAttribute("name", name);
+		model.addAttribute("searchParams","&name="+name);
 		return "role.index";
 	}
 

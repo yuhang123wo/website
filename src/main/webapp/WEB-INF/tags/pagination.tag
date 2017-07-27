@@ -17,7 +17,7 @@ request.setAttribute("totalPage", totalPage);
 %>
 <aside class="paging">
            <%if(page.hasPreviousPage()){ %>
-			<a href="?pageNo=${current-1}">上一页</a>
+			<a href="?pageNo=${current-1}&${searchParams}">上一页</a>
 			<%}%>
        <c:forEach var="i" begin="${begin}" end="${end}">
             <c:choose>
@@ -25,13 +25,13 @@ request.setAttribute("totalPage", totalPage);
                     <a href="javasript:void(0)" style="background-color: gray;">${i}</a>
                 </c:when>
                 <c:otherwise>
-                    <a href="?pageNo=${i}">${i}</a>
+                    <a href="?pageNo=${i}&${searchParams}">${i}</a>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
 		 <% if (page.hasNextPage()){%>
-			 <a href="?pageNo=${current+1}">下一页</a>
+			 <a href="?pageNo=${current+1}&${searchParams}">下一页</a>
 			 <%} %>
-		<b>共 <%=page.getTotalElements()%>条数据</b>
+		<b>共 <%=page.getTotalElements()%> 条数据</b>
 </aside>
 
