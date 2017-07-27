@@ -24,7 +24,7 @@ public class LoginController {
 
 	@RequestMapping("index")
 	public String index() {
-		return "role.index";
+		return "yuih";
 	}
 
 	/**

@@ -1,13 +1,15 @@
 package com.yu.hang.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -33,11 +35,13 @@ public class SystemController {
 	 * @return
 	 */
 	@RequestMapping("role/list")
-	public String roleList(Model model) {
+	public String roleList(Model model, HttpServletRequest request) {
+		int pageNo = ServletRequestUtils.getIntParameter(request, "pageNo", 1);
+		int pageSize = ServletRequestUtils.getIntParameter(request, "pageSize", 10);
 		ShiroUser user = UserUtil.getUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("createId", user.getId());
-		List<Role> list = roleService.queryByParmas(map);
+		Page<Role> list = roleService.queryPageByParmas(map, pageNo, pageSize);
 		model.addAttribute("roleList", list);
 		return "role.index";
 	}
@@ -52,7 +56,8 @@ public class SystemController {
 	@ResponseBody
 	public ResultMsg addRole(RoleVo role) {
 		ValidateUtil.validate(role);
-		roleService.save(CopyUtil.copyProperties(new Role(), role));
+		roleService.addNewRole(CopyUtil.copyProperties(new Role(), role), UserUtil.getUser()
+				.getId());
 		return new ResultMsg().success();
 	}
 
@@ -68,5 +73,9 @@ public class SystemController {
 		Role v = CopyUtil.copyProperties(new Role(), role, new String[] { "name" });
 		System.out.println(v);
 		return null;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(Math.floor(2/2)+":"+(2/0.8D));
 	}
 }

@@ -59,4 +59,8 @@ public class Role extends BaseModel {
         this.createTime = createTime;
     }
     
+    
+    public static void main(String[] args) {
+    	 System.out.println(Math.max(1, 1 - 100/2));
+	}
 }

@@ -18,6 +18,9 @@
 	
 	<sql id="whereRole">
         <where>
+        <if test="name!=null">
+           and name=#{name}
+         </if>
          <if test="createId!=null">
            and create_id=#{createId}
          </if>

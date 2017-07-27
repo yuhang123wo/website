@@ -10,4 +10,13 @@ import com.yu.hang.core.domain.Role;
  */
 public interface RoleService extends BaseService<Role> {
 
+	/**
+	 * 新增角色
+	 * @param role
+	 * @param createId
+	 * 下午3:46:24
+	 * void
+	 */
+	void addNewRole(Role role, long createId);
+
 }
