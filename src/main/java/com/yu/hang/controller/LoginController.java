@@ -13,18 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yu.hang.core.domain.Role;
 import com.yu.hang.exception.CaptchaException;
 import com.yu.hang.exception.UserNotException;
-import com.yu.hang.util.CopyUtil;
-import com.yu.hang.vo.RoleVo;
 
 @Controller
 public class LoginController {
 
 	@RequestMapping("index")
 	public String index() {
-		return "yuih";
+		return "manage.index";
 	}
 
 	/**
@@ -75,16 +72,5 @@ public class LoginController {
 		// session 传值
 		request.getSession().setAttribute("captchaTxt", code);
 		return code;
-	}
-
-	public static void main(String[] args) {
-		RoleVo v = new RoleVo();
-		v.setCreateId(1);
-		v.setId(1L);
-		v.setName("dfad");
-		v.setRemark("remark");
-		Role r = new Role();
-		CopyUtil.copyProperties(r, v);
-		System.out.println(r);
 	}
 }

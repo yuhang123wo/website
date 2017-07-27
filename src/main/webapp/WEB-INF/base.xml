@@ -14,9 +14,15 @@
 			<add-attribute value="bframe/bootstrap/js/bootstrap.js"></add-attribute>
 			<add-attribute value="js/bootbox.min.js"></add-attribute>
 			<add-attribute value="js/common.js"></add-attribute>
-		</put-list-attribute>		
+		</put-list-attribute>
 	</definition>
-	
+	<definition name="manage.index" extends="manage.layout">
+		<put-attribute name="seq" value="-1"></put-attribute>
+		<put-attribute name="title" value="首页" />
+		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
+		<put-list-attribute name="scriptItems" inherit="true">
+		</put-list-attribute>
+	</definition>
 	<definition name="role.index" extends="manage.layout">
 		<put-attribute name="seq" value="10"></put-attribute>
 		<put-attribute name="title" value="角色管理" />
@@ -24,7 +30,7 @@
 		<put-list-attribute name="scriptItems" inherit="true">
 		</put-list-attribute>
 	</definition>
-<definition name="newFile.index" extends="manage.layout">
+	<definition name="newFile.index" extends="manage.layout">
 		<put-attribute name="seq" value="11"></put-attribute>
 		<put-attribute name="title" value="运营后台首页" />
 		<put-attribute name="body" value="/WEB-INF/views/NewFile.jsp" />
