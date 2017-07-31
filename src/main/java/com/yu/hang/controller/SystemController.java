@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.mail.Message;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yu.hang.core.domain.Role;
+import com.yu.hang.core.domain.Userinfo;
 import com.yu.hang.core.service.RoleService;
 import com.yu.hang.core.service.UserinfoService;
 import com.yu.hang.core.validate.ValidateUtil;
@@ -101,7 +103,7 @@ public class SystemController {
 	 */
 	@RequestMapping("role/editView/{id}")
 	public String editIndex(Model model, @PathVariable("id") long id) {
-        model.addAttribute("role", roleService.queryById(id));
+		model.addAttribute("role", roleService.queryById(id));
 		return "role.edit.view";
 	}
 
@@ -119,4 +121,56 @@ public class SystemController {
 			return userinfoService.listAllMenu();
 		return userinfoService.listMenuByRole(roleId);
 	}
+
+	/**
+	 * 用户列表
+	 * 
+	 * @param request
+	 * @param name
+	 * @param model
+	 * @param phone
+	 * @return String
+	 */
+	@RequestMapping("user/list")
+	public String userList(HttpServletRequest request, String username, Model model, String mobile) {
+		int pageNo = ServletRequestUtils.getIntParameter(request, "pageNo", 1);
+		int pageSize = ServletRequestUtils.getIntParameter(request, "pageSize", 10);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("usernameLike", StringHelper.addLike(username));
+		map.put("mobile", StringHelper.trimString(mobile));
+		Page<Userinfo> list = userinfoService.queryPageByParmas(map, pageNo, pageSize);
+		model.addAttribute("userList", list);
+		model.addAttribute("username", username);
+		model.addAttribute("mobile", mobile);
+		model.addAttribute("searchParams", "&username=" + StringHelper.getKString(username)
+				+ "&mobile=" + StringHelper.getKString(mobile));
+		return "user.index";
+	}
+
+	/**
+	 * 新增用户
+	 * 
+	 * @param u
+	 * @return Message
+	 */
+	@RequestMapping("user/add")
+	public ResultMsg addUser(Userinfo u) {
+		ValidateUtil.validate(u);
+		userinfoService.addNewUser(u);
+		return new ResultMsg().success();
+
+	}
+
+	/**
+	 * 编辑用户
+	 * 
+	 * @param u
+	 * @return Message
+	 */
+	@RequestMapping("user/edit")
+	public Message editUser(Userinfo u) {
+		return null;
+
+	}
+
 }

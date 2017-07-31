@@ -42,4 +42,11 @@
 		<put-list-attribute name="scriptItems" inherit="true">
 		</put-list-attribute>
 	</definition>
+		<definition name="user.index" extends="manage.layout">
+		<put-attribute name="seq" value="11"></put-attribute>
+		<put-attribute name="title" value="用户管理" />
+		<put-attribute name="body" value="/WEB-INF/views/sys/user-list.jsp" />
+		<put-list-attribute name="scriptItems" inherit="true">
+		</put-list-attribute>
+	</definition>
 </tiles-definitions>

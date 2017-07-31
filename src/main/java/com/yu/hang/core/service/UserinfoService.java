@@ -35,4 +35,12 @@ public interface UserinfoService extends BaseService<Userinfo> {
 	 * @return List<TreeNode>
 	 */
 	List<TreeNode> listMenuByRole(long roleId);
+
+	/**
+	 * 新增用户
+	 * 
+	 * @param u
+	 *            void
+	 */
+	void addNewUser(Userinfo u);
 }

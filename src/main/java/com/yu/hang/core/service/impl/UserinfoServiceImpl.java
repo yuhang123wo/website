@@ -16,9 +16,12 @@ import com.yu.hang.core.dao.UserinfoDao;
 import com.yu.hang.core.domain.Menu;
 import com.yu.hang.core.domain.Userinfo;
 import com.yu.hang.core.domain.note.TreeNode;
+import com.yu.hang.core.exception.ValiAutoHandedException;
 import com.yu.hang.core.service.MenuService;
 import com.yu.hang.core.service.RoleMenuService;
 import com.yu.hang.core.service.UserinfoService;
+import com.yu.hang.util.Constant;
+import com.yu.hang.vo.ValidateMsgVO;
 
 /**
  * @类说明：
@@ -91,5 +94,16 @@ public class UserinfoServiceImpl extends BaseServiceImpl<Userinfo> implements Us
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public void addNewUser(Userinfo u) {
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("username", u.getUsername());
+		int num = userinfoDao.countByParmas(map);
+		if(num>1)
+			throw new ValiAutoHandedException(Constant.VALIDATE_ERROR, new ValidateMsgVO("username",
+					"该用户名已经被使用", u.getUsername()));
+		userinfoDao.save(u);
 	}
 }
