@@ -17,6 +17,7 @@ import com.yu.hang.core.domain.Menu;
 import com.yu.hang.core.domain.Userinfo;
 import com.yu.hang.core.domain.note.TreeNode;
 import com.yu.hang.core.service.MenuService;
+import com.yu.hang.core.service.RoleMenuService;
 import com.yu.hang.core.service.UserinfoService;
 
 /**
@@ -31,6 +32,8 @@ public class UserinfoServiceImpl extends BaseServiceImpl<Userinfo> implements Us
 	private UserinfoDao userinfoDao;
 	@Resource
 	private MenuService menuService;
+	@Resource
+	private RoleMenuService roleMenuService;
 
 	public BaseDao<Userinfo> getDao() {
 		return userinfoDao;
@@ -74,5 +77,19 @@ public class UserinfoServiceImpl extends BaseServiceImpl<Userinfo> implements Us
 			return list.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public List<TreeNode> listMenuByRole(long roleId) {
+		List<TreeNode> list = this.listAllMenu();
+		List<Long> roleList = roleMenuService.findMenuByRole(roleId);
+		if (!CollectionUtils.isEmpty(list)) {
+			for (int i = 0; i < list.size(); i++) {
+				TreeNode node = list.get(i);
+				if (roleList.contains(node.getId()))
+					node.setChecked(true);
+			}
+		}
+		return list;
 	}
 }

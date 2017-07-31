@@ -79,6 +79,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
 				RoleMenu m = new RoleMenu();
 				m.setMenuId(Integer.parseInt(ps));
 				m.setRoleId(roleId);
+				list.add(m);
 			}
 			roleMenuService.saveBatch(list);
 		}

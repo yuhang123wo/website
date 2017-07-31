@@ -10,11 +10,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yu.hang.core.domain.Role;
 import com.yu.hang.core.service.RoleService;
+import com.yu.hang.core.service.UserinfoService;
 import com.yu.hang.core.validate.ValidateUtil;
 import com.yu.hang.shiro.ShiroUser;
 import com.yu.hang.util.CopyUtil;
@@ -29,6 +32,8 @@ public class SystemController {
 
 	@Resource
 	private RoleService roleService;
+	@Resource
+	private UserinfoService userinfoService;
 
 	/**
 	 * 角色列表
@@ -82,6 +87,7 @@ public class SystemController {
 	 * @return
 	 */
 	@RequestMapping("role/edit")
+	@ResponseBody
 	public ResultMsg editRole(RoleVo role) {
 		ValidateUtil.validate(role);
 		Role v = CopyUtil.copyProperties(new Role(), role, new String[] { "name" });
@@ -89,7 +95,28 @@ public class SystemController {
 		return new ResultMsg().success();
 	}
 
-	public static void main(String[] args) {
-		System.out.println(Math.floor(2 / 2) + ":" + (2 / 0.8D));
+	/**
+	 * 
+	 * @return String
+	 */
+	@RequestMapping("role/editView/{id}")
+	public String editIndex(Model model, @PathVariable("id") long id) {
+        model.addAttribute("role", roleService.queryById(id));
+		return "role.edit.view";
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @throws Exception
+	 *             Object
+	 */
+	@RequestMapping("role/allMenu")
+	@ResponseBody
+	public Object allMenu(@RequestParam(defaultValue = "0", value = "roleId") int roleId)
+			throws Exception {
+		if (roleId == 0)
+			return userinfoService.listAllMenu();
+		return userinfoService.listMenuByRole(roleId);
 	}
 }

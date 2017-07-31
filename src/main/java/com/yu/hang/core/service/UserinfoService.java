@@ -28,4 +28,11 @@ public interface UserinfoService extends BaseService<Userinfo> {
 	 * @return
 	 */
 	Userinfo queryByName(String username);
+
+	/**
+	 * 
+	 * @param roleId
+	 * @return List<TreeNode>
+	 */
+	List<TreeNode> listMenuByRole(long roleId);
 }

@@ -35,4 +35,11 @@
 		<put-list-attribute name="scriptItems" inherit="true">
 		</put-list-attribute>
 	</definition>
+	<definition name="role.edit.view" extends="manage.layout">
+		<put-attribute name="seq" value="10"></put-attribute>
+		<put-attribute name="title" value="编辑角色" />
+		<put-attribute name="body" value="/WEB-INF/views/sys/role-edit.jsp" />
+		<put-list-attribute name="scriptItems" inherit="true">
+		</put-list-attribute>
+	</definition>
 </tiles-definitions>

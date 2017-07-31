@@ -32,7 +32,7 @@
 				<td class="center">${rl.remark }</td>
 				<td class="center"><fmt:formatDate value="${rl.createTime}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
 				<td class="center">
-				 <a href="#" title="详情" class="link_icon" 	target="_blank">&#118;</a> 
+				 <a href="${path}/sys/role/editView/${rl.id}" title="编辑" class="link_icon" 	target="_blank">&#118;</a> 
 				 <a href="#" title="删除" class="link_icon">&#100;</a></td>
 			</tr>
 			</c:forEach>

@@ -7,14 +7,5 @@
 	<script type="text/javascript" src="http://www.jeasyui.net/Public/js/easyui/jquery.easyui.min.js"></script>
 </head>
 <div>
-	<ul id="tt" class="easyui-tree"	url="${pageContext.request.contextPath}/test/testm"
-			checkbox="true">
-	</ul>
-	<input type="button" onclick="m()" value="点击"/>
+	   index
 </div>
-<script>
- function m(){
-	 console.log($('#tt').tree('getChecked'));
-	 
- }
-</script>

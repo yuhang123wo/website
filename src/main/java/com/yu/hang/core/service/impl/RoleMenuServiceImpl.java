@@ -1,5 +1,7 @@
 package com.yu.hang.core.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -27,6 +29,11 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenu> implements Ro
 
 	@Override
 	public void delByRoleId(long roleId) {
-		
+		roleMenuDao.delByRoleId(roleId);
+	}
+
+	@Override
+	public List<Long> findMenuByRole(long roleId) {
+		return roleMenuDao.findMenuByRole(roleId);
 	}
 }
