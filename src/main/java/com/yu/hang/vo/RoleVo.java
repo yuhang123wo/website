@@ -1,5 +1,7 @@
 package com.yu.hang.vo;
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -14,6 +16,16 @@ public class RoleVo extends BaseModel {
 	@Length(max = 200, message = "备注长度不能超过200")
 	private String remark;
 	private Integer createId;
+	@NotEmpty(message="权限必选")
+	private String permission;
+	
+	public String getPermission() {
+		return permission;
+	}
+
+	public void setPermission(String permission) {
+		this.permission = permission;
+	}
 
 	public String getName() {
 		return name;

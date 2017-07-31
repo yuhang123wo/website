@@ -36,17 +36,17 @@ public class SystemController {
 	 * @return
 	 */
 	@RequestMapping("role/list")
-	public String roleList(Model model, HttpServletRequest request,String name) {
+	public String roleList(Model model, HttpServletRequest request, String name) {
 		int pageNo = ServletRequestUtils.getIntParameter(request, "pageNo", 1);
 		int pageSize = ServletRequestUtils.getIntParameter(request, "pageSize", 10);
 		ShiroUser user = UserUtil.getUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("createId", user.getId());
-		map.put("nameLike",StringHelper.addLike(name));
+		map.put("nameLike", StringHelper.addLike(name));
 		Page<Role> list = roleService.queryPageByParmas(map, pageNo, pageSize);
 		model.addAttribute("roleList", list);
 		model.addAttribute("name", name);
-		model.addAttribute("searchParams","&name="+name);
+		model.addAttribute("searchParams", "&name=" + StringHelper.getKString(name));
 		return "role.index";
 	}
 
@@ -61,8 +61,18 @@ public class SystemController {
 	public ResultMsg addRole(RoleVo role) {
 		ValidateUtil.validate(role);
 		roleService.addNewRole(CopyUtil.copyProperties(new Role(), role), UserUtil.getUser()
-				.getId());
+				.getId(), role.getPermission());
 		return new ResultMsg().success();
+	}
+
+	/**
+	 * 角色添加界面
+	 * 
+	 * @return String
+	 */
+	@RequestMapping("role/addView")
+	public String roleIndex() {
+		return "role.add.view";
 	}
 
 	/**
@@ -75,11 +85,11 @@ public class SystemController {
 	public ResultMsg editRole(RoleVo role) {
 		ValidateUtil.validate(role);
 		Role v = CopyUtil.copyProperties(new Role(), role, new String[] { "name" });
-		System.out.println(v);
-		return null;
+		roleService.editRole(v, role.getPermission());
+		return new ResultMsg().success();
 	}
-	
+
 	public static void main(String[] args) {
-		System.out.println(Math.floor(2/2)+":"+(2/0.8D));
+		System.out.println(Math.floor(2 / 2) + ":" + (2 / 0.8D));
 	}
 }

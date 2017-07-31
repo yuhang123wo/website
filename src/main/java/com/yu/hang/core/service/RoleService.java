@@ -17,6 +17,13 @@ public interface RoleService extends BaseService<Role> {
 	 * 下午3:46:24
 	 * void
 	 */
-	void addNewRole(Role role, long createId);
+	void addNewRole(Role role, long createId,String permission);
+	/**
+	 * 编辑角色
+	 * @param role
+	 * @param permission
+	 * void
+	 */
+	void editRole(Role role,String permission);
 
 }

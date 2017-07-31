@@ -24,4 +24,9 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenu> implements Ro
 	public BaseDao<RoleMenu> getDao() {
 		return roleMenuDao;
 	}
+
+	@Override
+	public void delByRoleId(long roleId) {
+		
+	}
 }

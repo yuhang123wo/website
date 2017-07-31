@@ -48,7 +48,7 @@
     <insert id="saveBatch" parameterType="java.util.List">
 		insert into role(name,remark,create_id,update_time,create_time) values
 		<foreach collection="list" item="item" separator=",">
-			(#{item.name},#{item.remark},#{item.createId},#{item.updateTime},#{item.createTime})
+			(#{item.name},#{item.remark},#{item.createId},now(),now())
 		</foreach>
 	</insert>
 	

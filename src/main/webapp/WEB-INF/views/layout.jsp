@@ -1,21 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles-extras"	prefix="tilesx"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setAttribute("path", request.getContextPath());
 %>
-<!DOCTYPE html>
-<html>
+<tilesx:useAttribute id="list" name="scriptItems" classname="java.util.List" />
+<!doctype html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>后台管理系统</title>
+<title><tiles:insertAttribute name="title" /></title>
 <meta name="author" content="DeathGhost" />
 <link rel="stylesheet" type="text/css" href="${path }/css/style.css">
+<link rel="stylesheet" type="text/css" href="${path }/css/bootstrap.css">
 <!--[if lt IE 9]>
 <script src="js/html5.js"></script>
 <![endif]-->
 <script src="${path }/js/jquery.js"></script>
+<script src="${path }/js/jquery-1.11.1.min.js"></script>
 <script src="${path }/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<c:if test="${list != null }">
+	<c:forEach var="item" items="${list}">
+<script type="text/javascript" src="${pageContext.request.contextPath}/${item }"></script>
+	</c:forEach>
+</c:if>
 <script>
 $(function(){
 	var seq = '<tiles:insertAttribute name="seq"></tiles:insertAttribute>';
@@ -41,14 +52,14 @@ $(function(){
 </header>
 <!--aside nav-->
 <!--aside nav-->
-<aside class="lt_aside_nav content mCustomScrollbar">
+<aside class="lt_aside_nav content mCustomScrollbar" style="margin-top: 12px;">
  <h2><a href="index.html">起始页</a></h2>
  <ul>
   <li>
    <dl>
     <dt>系统管理</dt>
     <!--当前链接则添加class:active-->
-    <dd><a href="${path }/index" class="seq" seq="10">角色管理</a></dd>
+    <dd><a href="${path }/sys/role/list" class="seq" seq="10">角色管理</a></dd>
     <dd><a href="${path}/newFile" class="seq" seq="11">商品详情示例</a></dd>
     <dd><a href="recycle_bin.html">商品回收站示例</a></dd>
    </dl>
@@ -60,47 +71,8 @@ $(function(){
     <dd><a href="order_detail.html">订单详情示例</a></dd>
    </dl>
   </li>
-  <li>
-   <dl>
-    <dt>会员管理</dt>
-    <dd><a href="user_list.html">会员列表示例</a></dd>
-    <dd><a href="user_detail.html">添加会员（详情）示例</a></dd>
-    <dd><a href="user_rank.html">会员等级示例</a></dd>
-    <dd><a href="adjust_funding.html">会员资金管理示例</a></dd>
-   </dl>
-  </li>
-  <li>
-   <dl>
-    <dt>基础设置</dt>
-    <dd><a href="setting.html">站点基础设置示例</a></dd>
-   </dl>
-  </li>
-  <li>
-   <dl>
-    <dt>配送与支付设置</dt>
-    <dd><a href="express_list.html">配送方式</a></dd>
-    <dd><a href="pay_list.html">支付方式</a></dd>
-   </dl>
-  </li>
-  <li>
-   <dl>
-    <dt>在线统计</dt>
-    <dd><a href="discharge_statistic.html">流量统计</a></dd>
-    <dd><a href="sales_volume.html">销售额统计</a></dd>
-   </dl>
-  </li>
-  <li>
-   <p class="btm_infor">© DeathGhost.cn 版权所有</p>
-  </li>
  </ul>
 </aside>
-
-<style>
-.dataStatistic{width:400px;height:200px;border:1px solid #ccc;margin:0 auto;margin:10px;overflow:hidden}
-#cylindrical{width:400px;height:200px;margin-top:-15px}
-#line{width:400px;height:200px;margin-top:-15px}
-#pie{width:400px;height:200px;margin-top:-15px}
-</style>
 <section class="rt_wrap content mCustomScrollbar">
 
  <div class="rt_content">

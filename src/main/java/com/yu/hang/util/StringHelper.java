@@ -80,4 +80,15 @@ public class StringHelper {
 			return null;
 		return "%" + str.trim() + "%";
 	}
+
+	/**
+	 * 
+	 * @param str
+	 * @return String
+	 */
+	public static String getKString(String str) {
+		if (isNull(str))
+			return "";
+		return str.trim();
+	}
 }
