@@ -162,6 +162,16 @@ public class SystemController {
 	}
 
 	/**
+	 * 
+	 * @param u
+	 * @return ResultMsg
+	 */
+	@RequestMapping("user/addView")
+	public String userAddView() {
+		return "user.add.view";
+	}
+
+	/**
 	 * 编辑用户
 	 * 
 	 * @param u

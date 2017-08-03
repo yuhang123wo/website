@@ -5,7 +5,7 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <script type="text/javascript">
    function toView(){
-	   window.location.href="${path}/sys/role/addView";
+	   window.location.href="${path}/sys/user/addView";
    }
 </script>
 	<div class="rt_content">

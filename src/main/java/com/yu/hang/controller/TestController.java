@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -143,7 +142,7 @@ public class TestController {
 
 	public static void main(String[] args) throws Exception {
 
-		String text = "weixin://wxpay/bizpayurl?pr=rkTJ3vq";
+		String text = "weixin://wxpay/bizpayurl?pr=g57dB1S";
 		generateQRCode(text, 200, 200, "png");
 	}
 }
