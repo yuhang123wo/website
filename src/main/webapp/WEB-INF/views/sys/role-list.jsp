@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+ <link rel="stylesheet" type="text/css" href="${path }/css/style.css">
 <script type="text/javascript">
    function toView(){
 	   window.location.href="${path}/sys/role/addView";

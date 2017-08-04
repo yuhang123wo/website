@@ -6,6 +6,7 @@
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
 	<script type="text/javascript" src="http://www.jeasyui.net/Public/js/easyui/jquery.easyui.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="${path }/css/sweet-alert.css" />
+ <link rel="stylesheet" type="text/css" href="${path }/css/style.css">
  <div class="rt_content">
       <div class="page_title">
        <h2 class="fl">编辑角色</h2>

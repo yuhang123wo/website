@@ -11,6 +11,7 @@
 		<put-attribute name="body" value="" />
 		<put-list-attribute name="scriptItems">
 		<add-attribute value="js/bootstrap.js"></add-attribute>
+		<add-attribute value="js/jquery.validate.min.js"></add-attribute>
 		<add-attribute value="js/sweet-alert.min.js"></add-attribute>
 		</put-list-attribute>
 	</definition>

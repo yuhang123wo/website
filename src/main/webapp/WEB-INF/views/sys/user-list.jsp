@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+ <link rel="stylesheet" type="text/css" href="${path }/css/style.css">
 <script type="text/javascript">
    function toView(){
 	   window.location.href="${path}/sys/user/addView";
@@ -12,7 +13,7 @@
 		<div class="page_title">
 			<h2 class="fl">用户管理</h2>
 		</div>
-		<form action="${path}/sys/role/list" id="searchForm" method="POST">
+		<form action="${path}/sys/user/list" id="searchForm" method="POST">
 		   <input type="text" class="textbox textbox_225" placeholder="用户名..." name="username" value="${username}"/> 
 	       <input type="submit" value="查询" class="group_btn" />&nbsp;&nbsp;&nbsp;&nbsp;
 	       <input type="button" onclick="toView()" class="group_btn" value="新增"/>
