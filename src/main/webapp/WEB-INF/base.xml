@@ -52,9 +52,10 @@
 	</definition>
 		<definition name="user.add.view" extends="manage.layout">
 		<put-attribute name="seq" value="11"></put-attribute>
-		<put-attribute name="title" value="用户管理" />
+		<put-attribute name="title" value="新增管理" />
 		<put-attribute name="body" value="/WEB-INF/views/sys/user-add.jsp" />
 		<put-list-attribute name="scriptItems" inherit="true">
+		  <add-attribute value="js/fileinput.js"></add-attribute>
 		</put-list-attribute>
 	</definition>
 	

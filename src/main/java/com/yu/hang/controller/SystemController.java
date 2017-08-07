@@ -154,6 +154,7 @@ public class SystemController {
 	 * @return Message
 	 */
 	@RequestMapping("user/add")
+	@ResponseBody
 	public ResultMsg addUser(Userinfo u) {
 		ValidateUtil.validate(u);
 		userinfoService.addNewUser(u);

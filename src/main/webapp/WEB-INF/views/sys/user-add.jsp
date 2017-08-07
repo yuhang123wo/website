@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
- <link rel="stylesheet" type="text/css" href="${path }/css/style.css">
+  <link href="${path }/css/style.css" rel="stylesheet" type="text/css" />
+ <link rel="stylesheet" type="text/css" href="${path }/css/default.css">
+ <link rel="stylesheet" type="text/css" href="${path }/css/sweet-alert.css" />
 <style>
 .error{
 	color:red;
@@ -49,8 +51,8 @@
        </li>
        <li>
         <span class="item_name" style="width:120px;">性别：</span>
-        <label class="single_selection"><input type="radio" name="sex" checked="checked"/>男</label>
-        <label class="single_selection"><input type="radio" name="sex"/>女</label>
+        <label class="single_selection"><input type="radio" name="sex" checked="checked" value="1"/>男</label>
+        <label class="single_selection"><input type="radio" name="sex" value="0"/>女</label>
        </li>
          <li>
         <span class="item_name" style="width:120px;">邮箱：</span>
@@ -62,19 +64,11 @@
         <input type="text" class="textbox textbox_295" name="birthday" placeholder="生日..." id="birthday"/>
         <!-- <span class="errorTips"></span> -->
        </li>
-         <li>
+        <li>
         <span class="item_name" style="width:120px;">地址：</span>
         <input type="text" class="textbox textbox_295" name="address" placeholder="地址..." id="address"/>
         <!-- <span class="errorTips"></span> -->
        </li>
-       <li>
-        <span class="item_name" style="width:120px;">上传头像：</span>
-        <label class="uploadImg">
-         <input type="file"/>
-         <span>上传图片</span>
-        </label>
-       </li>
-       <li>
         <span class="item_name" style="width:120px;"></span>
         <input type="submit" class="link_btn" value="提交" onclick="addData();"/>
        </li>
@@ -84,10 +78,11 @@
  </div>
 <script type="text/javascript">
   function addData(){
+	  var parray = $("#signupForm").serialize();
 	$.ajax({
 		    type: "POST",
-		    url: '${path}/sys/role/add',
-		    data:{name:name,remark:remark,permission:myArray},
+		    url: '${path}/sys/user/add',
+		    data:parray,
 		    success: function(data){
 		    	if(data.code==0) {		    		
 		    		swal({
@@ -176,4 +171,17 @@
 			errorElement : "span"
 		});
  })
+ 
+ $(document).on('ready', function() {
+	   $("#file-3").fileinput({
+	        showUpload: false,
+	        showCaption: false,
+	        maxFileCount:1,
+	        browseClass: "btn btn-primary btn-lg",
+	        fileType: "any",
+	        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+	        overwriteInitial: false
+	    });
+
+});
 </script>
