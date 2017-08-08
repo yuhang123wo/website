@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.yu.hang.core.dao.FlowInstanceDao">
+   <resultMap type="FlowInstance" id="FlowInstanceMap">
+		  <id property ="id" column="id" />
+		  <id property ="flowId" column="flow_id" />
+		  <id property ="title" column="title" />
+		  <id property ="userId" column="user_id" />
+		  <id property ="createTime" column="create_time" />
+		  <id property ="updateTime" column="update_time" />
+		  <id property ="flowState" column="flow_state" />
+		  <id property ="instanceId" column="instance_id" />
+	</resultMap>
+
+	<sql id="sqlFlowInstance">
+    	id,flow_id,title,user_id,create_time,update_time,flow_state,instance_id
+	</sql>
+	
+	<sql id="whereFlowInstance">
+        <where>
+            <if test="flowId!=null">
+             and flow_id=#{flowId}
+            </if>
+            <if test="userId!=null">
+             and user_id=#{userId}
+            </if>
+            <if test="instanceId!=null">
+             and instance_id=#{instanceId}
+            </if>
+        	<if test="startTime!=null">
+	        	<![CDATA[
+	        		and create_time>=#{startTime}
+	        	]]>
+	        </if>
+	        <if test="endTime!=null">
+	        	<![CDATA[
+	        		and create_time<=#{endTime}
+	        	]]>
+	        </if>
+        </where>
+    </sql>
+    
+    <insert id="save" keyProperty="id"	useGeneratedKeys="true">
+		insert into flow_instance(flow_id,title,user_id,create_time,update_time,flow_state,instance_id) values
+		 (#{flowId},#{title},#{userId},now(),now(),#{flowState},#{instanceId})
+	</insert>
+    
+    <insert id="saveBatch" parameterType="java.util.List">
+		insert into flow_instance(flow_id,title,user_id,create_time,update_time,flow_state,instance_id) values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.flowId},#{item.title},#{item.userId},now(),now(),#{item.flowState},#{item.instanceId})
+		</foreach>
+	</insert>
+	
+	<select id="queryById" resultMap="FlowInstanceMap">
+     select   <include refid="sqlFlowInstance"/> FROM flow_instance  where id=#{id}
+    </select>
+
+    <select id="queryByParmas" parameterType="map" resultMap="FlowInstanceMap">
+      select  <include refid="sqlFlowInstance"/> FROM flow_instance <include refid="whereFlowInstance"/>
+        <if test="start!=null and size!=null">
+	        limit #{start},#{size}
+        </if>
+    </select>
+    
+    <select id="countByParmas"  parameterType="map" resultType="int">
+      select  count(1) FROM flow_instance <include refid="whereFlowInstance"/>
+    </select>
+    
+   <update id="update">
+        UPDATE flow_instance set 
+        flow_id=#{flowId},title=#{title},user_id=#{userId},update_time=#{updateTime},flow_state=#{flowState},instance_id=#{instanceId}
+        WHERE id = #{id}
+    </update>    
+</mapper>

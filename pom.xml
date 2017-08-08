@@ -48,6 +48,7 @@
 		<webserver.port>8181</webserver.port>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<downloadSources>true</downloadSources>
+		<activiti.version>5.19.0</activiti.version>
 
 	</properties>
 
@@ -75,6 +76,17 @@
 
 	<!-- 依赖项定义 -->
 	<dependencies>
+	
+	<dependency>  
+    <groupId>org.activiti</groupId>  
+    <artifactId>activiti-engine</artifactId>  
+    <version>${activiti.version}</version>  
+    </dependency>  
+   <dependency>  
+    <groupId>org.activiti</groupId>  
+    <artifactId>activiti-spring</artifactId>  
+    <version>${activiti.version}</version>  
+  </dependency>  
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-core</artifactId>

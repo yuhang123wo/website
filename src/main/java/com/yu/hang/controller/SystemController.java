@@ -195,4 +195,5 @@ public class SystemController {
 				+ UserUtil.getUser().getId());
 		return new ResultMsg(ResultMsg.SUCCESS, "成功", s);
 	}
+
 }

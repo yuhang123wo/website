@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.yu.hang.core.dao.WorkFlowDao">
+   <resultMap type="WorkFlow" id="WorkFlowMap">
+		  <id property ="id" column="id" />
+		  <id property ="name" column="name" />
+		  <id property ="source" column="source" />
+		  <id property ="sourceImg" column="sourceImg" />
+		  <id property ="state" column="state" />
+		  <id property ="remark" column="remark" />
+		  <id property ="createTime" column="create_time" />
+		  <id property ="updateTime" column="update_time" />
+	</resultMap>
+
+	<sql id="sqlWorkFlow">
+    	id,name,source,sourceImg,state,remark,create_time,update_time
+	</sql>
+	
+	<sql id="whereWorkFlow">
+        <where>
+        <if test="state!=null">
+          and state=#{state}
+        </if>
+        	<if test="startTime!=null">
+	        	<![CDATA[
+	        		and create_time>=#{startTime}
+	        	]]>
+	        </if>
+	        <if test="endTime!=null">
+	        	<![CDATA[
+	        		and create_time<=#{endTime}
+	        	]]>
+	        </if>
+        </where>
+    </sql>
+    
+    <insert id="save" keyProperty="id"	useGeneratedKeys="true">
+		insert into work_flow(name,source,sourceImg,state,remark,create_time,update_time) values
+		 (#{name},#{source},#{sourceImg},#{state},#{remark},#{createTime},#{updateTime})
+	</insert>
+    
+    <insert id="saveBatch" parameterType="java.util.List">
+		insert into work_flow(name,source,sourceImg,state,remark,create_time,update_time) values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.name},#{item.source},#{item.sourceImg},#{item.state},#{item.remark},#{item.createTime},#{item.updateTime})
+		</foreach>
+	</insert>
+	
+	<select id="queryById" resultMap="WorkFlowMap">
+     select   <include refid="sqlWorkFlow"/> FROM work_flow  where id=#{id}
+    </select>
+
+    <select id="queryByParmas" parameterType="map" resultMap="WorkFlowMap">
+      select  <include refid="sqlWorkFlow"/> FROM work_flow <include refid="whereWorkFlow"/>
+        <if test="start!=null and size!=null">
+	        limit #{start},#{size}
+        </if>
+    </select>
+    
+    <select id="countByParmas"  parameterType="map" resultType="int">
+      select  count(1) FROM work_flow <include refid="whereWorkFlow"/>
+    </select>
+    
+   <update id="update">
+        UPDATE work_flow set 
+        name=#{name},source=#{source},sourceImg=#{sourceImg},state=#{state},remark=#{remark},create_time=#{createTime},update_time=#{updateTime}
+        WHERE id = #{id}
+    </update>    
+</mapper>

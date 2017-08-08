@@ -5,21 +5,23 @@
  *******************************************************************************/
 package com.yu.hang.util.redis;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
 import redis.clients.jedis.Tuple;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.jedis.exceptions.JedisException;
 import redis.clients.util.Pool;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * JedisTemplate 提供了一个template方法，负责对Jedis连接的获取与归还。
@@ -622,4 +624,21 @@ public class JedisTemplate {
 
 	}
 
+	public void publish(final String channel, final String message) {
+		execute(new JedisActionNoResult() {
+			@Override
+			public void action(Jedis jedis) {
+				jedis.publish(channel, message);
+			}
+		});
+	}
+	
+	public void subscribe(final JedisPubSub jedisPubSub, final String... channels) {  
+		execute(new JedisActionNoResult() {
+			@Override
+			public void action(Jedis jedis) {
+				jedis.subscribe(jedisPubSub, channels);
+			}
+		});
+	} 
 }

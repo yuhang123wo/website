@@ -96,4 +96,5 @@
     </bean>
     
     <import resource="applicationContext-redis.xml"/>
+    <import resource="applicationContext-activiti.xml"/>
 </beans>
