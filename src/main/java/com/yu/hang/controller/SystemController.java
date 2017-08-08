@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.mail.Message;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Page;
@@ -16,16 +15,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yu.hang.core.domain.DepSerializable;
 import com.yu.hang.core.domain.Role;
 import com.yu.hang.core.domain.Userinfo;
 import com.yu.hang.core.service.RoleService;
 import com.yu.hang.core.service.UserinfoService;
 import com.yu.hang.core.validate.ValidateUtil;
 import com.yu.hang.shiro.ShiroUser;
+import com.yu.hang.util.Constant;
 import com.yu.hang.util.CopyUtil;
 import com.yu.hang.util.ResultMsg;
 import com.yu.hang.util.StringHelper;
 import com.yu.hang.util.UserUtil;
+import com.yu.hang.util.redis.JedisTemplate;
 import com.yu.hang.vo.RoleVo;
 
 @Controller
@@ -36,6 +38,8 @@ public class SystemController {
 	private RoleService roleService;
 	@Resource
 	private UserinfoService userinfoService;
+	@Resource
+	private JedisTemplate jedisTemplate;
 
 	/**
 	 * 角色列表
@@ -179,9 +183,16 @@ public class SystemController {
 	 * @return Message
 	 */
 	@RequestMapping("user/edit")
-	public Message editUser(Userinfo u) {
+	public ResultMsg editUser(Userinfo u) {
 		return null;
 
 	}
 
+	@RequestMapping("dep/list")
+	@ResponseBody
+	public ResultMsg depList(Userinfo u) {
+		DepSerializable s = jedisTemplate.getObj(Constant.DEP_REDIS_KEY
+				+ UserUtil.getUser().getId());
+		return new ResultMsg(ResultMsg.SUCCESS, "成功", s);
+	}
 }
