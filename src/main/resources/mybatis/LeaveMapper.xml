@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.yu.hang.core.dao.LeaveDao">
+   <resultMap type="LeaveFlow" id="LeaveMap">
+		  <id property ="id" column="id" />
+		  <id property ="title" column="title" />
+		  <id property ="content" column="content" />
+		  <id property ="userId" column="user_id" />
+		  <id property ="username" column="username" />
+		  <id property ="dayCount" column="day_count" />
+		  <id property ="startTime" column="start_time" />
+		  <id property ="endTime" column="end_time" />
+		  <id property ="createTime" column="create_time" />
+		  <id property ="updateTime" column="update_time" />
+		  <id property ="state" column="state" />
+	</resultMap>
+
+	<sql id="sqlLeave">
+    	id,title,content,user_id,username,day_count,start_time,end_time,create_time,update_time,state
+	</sql>
+	
+	<sql id="whereLeave">
+        <where>
+        
+           <if test="userId!=null">
+            and user_id=#{userId}
+           </if>
+           <if test="state!=null">
+            and state =#{state}
+           </if>
+        	<if test="startTime!=null">
+	        	<![CDATA[
+	        		and create_time>=#{startTime}
+	        	]]>
+	        </if>
+	        <if test="endTime!=null">
+	        	<![CDATA[
+	        		and create_time<=#{endTime}
+	        	]]>
+	        </if>
+        </where>
+    </sql>
+    
+    <insert id="save" keyProperty="id"	useGeneratedKeys="true">
+		insert into leave_flow(title,content,user_id,username,day_count,start_time,end_time,create_time,update_time,state) values
+		 (#{title},#{content},#{userId},#{username},#{dayCount},#{startTime},#{endTime},now(),now(),#{state})
+	</insert>
+    
+    <insert id="saveBatch" parameterType="java.util.List">
+		insert into leave_flow(title,content,user_id,username,day_count,start_time,end_time,create_time,update_time,state) values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.title},#{item.content},#{item.userId},#{item.username},#{item.dayCount},#{item.startTime},#{item.endTime},now(),now(),#{item.state})
+		</foreach>
+	</insert>
+	
+	<select id="queryById" resultMap="LeaveMap">
+     select   <include refid="sqlLeave"/> FROM leave_flow  where id=#{id}
+    </select>
+
+    <select id="queryByParmas" parameterType="map" resultMap="LeaveMap">
+      select  <include refid="sqlLeave"/> FROM leave_flow <include refid="whereLeave"/>
+        <if test="start!=null and size!=null">
+	        limit #{start},#{size}
+        </if>
+    </select>
+    
+    <select id="countByParmas"  parameterType="map" resultType="int">
+      select  count(1) FROM leave_flow <include refid="whereLeave"/>
+    </select>
+    
+   <update id="update">
+        UPDATE leave_flow set 
+        title=#{title},content=#{content},user_id=#{userId},username=#{username},day_count=#{dayCount},start_time=#{startTime},end_time=#{endTime},create_time=#{createTime},update_time=#{updateTime}
+        ,state=#{state} WHERE id = #{id}
+    </update>    
+</mapper>

@@ -30,6 +30,12 @@ public class ResultMsg {
 		return this;
 	}
 
+	public ResultMsg successObj(Object data) {
+		this.code = SUCCESS;
+		this.data = data;
+		return this;
+	}
+
 	public int getCode() {
 		return code;
 	}

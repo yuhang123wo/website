@@ -28,13 +28,13 @@
         <property name="processDefinitionCache">
             <bean class="me.kafeitu.demo.activiti.util.cache.DistributedCache" />
         </property>-->
-
-        <!-- 自动部署 -->
+<!-- 
+        自动部署
         <property name="deploymentResources">
             <list>
                 <value>classpath*:/deployments/*.bpmn20.xml</value>
             </list>
-        </property>
+        </property> -->
 
         <!-- 自定义表单字段类型 -->
         <property name="customFormTypes">

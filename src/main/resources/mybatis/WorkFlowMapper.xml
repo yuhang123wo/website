@@ -12,16 +12,20 @@
 		  <id property ="remark" column="remark" />
 		  <id property ="createTime" column="create_time" />
 		  <id property ="updateTime" column="update_time" />
+		  <id property ="wkey" column="wkey" />
 	</resultMap>
 
 	<sql id="sqlWorkFlow">
-    	id,name,source,sourceImg,state,remark,create_time,update_time
+    	id,name,source,sourceImg,state,remark,create_time,update_time,wkey
 	</sql>
 	
 	<sql id="whereWorkFlow">
         <where>
         <if test="state!=null">
           and state=#{state}
+        </if>
+        <if test="wkey!=null">
+          and wkey=#{wkey}
         </if>
         	<if test="startTime!=null">
 	        	<![CDATA[
@@ -37,14 +41,14 @@
     </sql>
     
     <insert id="save" keyProperty="id"	useGeneratedKeys="true">
-		insert into work_flow(name,source,sourceImg,state,remark,create_time,update_time) values
-		 (#{name},#{source},#{sourceImg},#{state},#{remark},#{createTime},#{updateTime})
+		insert into work_flow(name,source,sourceImg,state,remark,create_time,update_time,wkey) values
+		 (#{name},#{source},#{sourceImg},#{state},#{remark},#{createTime},#{updateTime},#{wkey})
 	</insert>
     
     <insert id="saveBatch" parameterType="java.util.List">
-		insert into work_flow(name,source,sourceImg,state,remark,create_time,update_time) values
+		insert into work_flow(name,source,sourceImg,state,remark,create_time,update_time,wkey) values
 		<foreach collection="list" item="item" separator=",">
-			(#{item.name},#{item.source},#{item.sourceImg},#{item.state},#{item.remark},#{item.createTime},#{item.updateTime})
+			(#{item.name},#{item.source},#{item.sourceImg},#{item.state},#{item.remark},#{item.createTime},#{item.updateTime},#{item.wkey})
 		</foreach>
 	</insert>
 	
@@ -65,7 +69,7 @@
     
    <update id="update">
         UPDATE work_flow set 
-        name=#{name},source=#{source},sourceImg=#{sourceImg},state=#{state},remark=#{remark},create_time=#{createTime},update_time=#{updateTime}
+        name=#{name},source=#{source},sourceImg=#{sourceImg},state=#{state},remark=#{remark},create_time=#{createTime},update_time=#{updateTime},wkey=#{wkey}
         WHERE id = #{id}
     </update>    
 </mapper>

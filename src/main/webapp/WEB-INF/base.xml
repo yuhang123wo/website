@@ -13,6 +13,7 @@
 		<add-attribute value="js/bootstrap.js"></add-attribute>
 		<add-attribute value="js/jquery.validate.min.js"></add-attribute>
 		<add-attribute value="js/sweet-alert.min.js"></add-attribute>
+		<add-attribute value="js/datepicker/WdatePicker.js"></add-attribute>
 		</put-list-attribute>
 	</definition>
 	<definition name="manage.index" extends="manage.layout">
@@ -56,6 +57,30 @@
 		<put-attribute name="body" value="/WEB-INF/views/sys/user-add.jsp" />
 		<put-list-attribute name="scriptItems" inherit="true">
 		  <add-attribute value="js/fileinput.js"></add-attribute>
+		</put-list-attribute>
+	</definition>
+
+	<definition name="sys.flow.index" extends="manage.layout">
+		<put-attribute name="seq" value="20"></put-attribute>
+		<put-attribute name="title" value="角色管理" />
+		<put-attribute name="body" value="/WEB-INF/views/activiti/work-list.jsp" />
+		<put-list-attribute name="scriptItems" inherit="true">
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="leave.index" extends="manage.layout">
+		<put-attribute name="seq" value="21"></put-attribute>
+		<put-attribute name="title" value="请假列表" />
+		<put-attribute name="body" value="/WEB-INF/views/activiti/leave-list.jsp" />
+		<put-list-attribute name="scriptItems" inherit="true">
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="leave.add" extends="manage.layout">
+		<put-attribute name="seq" value="21"></put-attribute>
+		<put-attribute name="title" value="请假" />
+		<put-attribute name="body" value="/WEB-INF/views/activiti/leave-add.jsp" />
+		<put-list-attribute name="scriptItems" inherit="true">
 		</put-list-attribute>
 	</definition>
 	

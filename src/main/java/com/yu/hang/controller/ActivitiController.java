@@ -1,53 +1,147 @@
 package com.yu.hang.controller;
 
-import java.io.InputStream;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
-import org.activiti.bpmn.model.BpmnModel;
-import org.activiti.engine.ManagementService;
-import org.activiti.engine.ProcessEngineConfiguration;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
-import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import org.activiti.engine.impl.context.Context;
-import org.activiti.engine.repository.ProcessDefinition;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.image.ProcessDiagramGenerator;
-import org.activiti.image.impl.DefaultProcessDiagramGenerator;
-import org.activiti.spring.ProcessEngineFactoryBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yu.hang.core.domain.LeaveFlow;
+import com.yu.hang.core.domain.WorkFlow;
+import com.yu.hang.core.service.LeaveService;
 import com.yu.hang.core.service.WorkflowService;
+import com.yu.hang.core.validate.ValidateUtil;
+import com.yu.hang.util.ResultMsg;
+import com.yu.hang.util.UserUtil;
 
 /**
  * 流程管理控制器
  *
  */
 @Controller
+@RequestMapping("workFlow")
 public class ActivitiController {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Resource
 	private WorkflowService workflowService;
+	@Resource
+	private LeaveService leaveService;
 
-	@RequestMapping("workflow")
-	public void m() {
-		workflowService.processDeployWorkFlow(1);
-		workflowService.processStartInstance("");
+	/**
+	 * 部署一个流程
+	 * 
+	 * @param resourceId
+	 *            void
+	 */
+	@RequestMapping("deploy")
+	@ResponseBody
+	public ResultMsg deploy(long resourceId) {
+		workflowService.processDeployWorkFlow(resourceId);
+		return new ResultMsg().success();
+	}
+
+	/**
+	 * 
+	 * @param resourceId
+	 * @return ResultMsg
+	 */
+	@RequestMapping("start")
+	@ResponseBody
+	public ResultMsg start(long resourceId) {
+		WorkFlow f = workflowService.queryById(resourceId);
+		workflowService.processStartInstance(f.getWkey());
+		return new ResultMsg().success();
+	}
+
+	/**
+	 * 获取待办事
+	 * 
+	 * @return ResultMsg
+	 */
+	@RequestMapping("getTask")
+	@ResponseBody
+	public ResultMsg getTask() {
+		return new ResultMsg().successObj(workflowService.getTask(UserUtil.getUser().getId()));
+	}
+
+	/**
+	 * 
+	 * @param taskId
+	 * @return ResultMsg
+	 */
+	@RequestMapping("complete")
+	@ResponseBody
+	public ResultMsg updateTask(String taskId) {
+		workflowService.updateTask(taskId);
+		return new ResultMsg().success();
+	}
+
+	/**
+	 * 
+	 * @param model
+	 * @return String
+	 */
+	@RequestMapping("listWorkFlow")
+	public String listWorkFlow(Model model, HttpServletRequest request) {
+		int pageNo = ServletRequestUtils.getIntParameter(request, "pageNo", 1);
+		int pageSize = ServletRequestUtils.getIntParameter(request, "pageSize", 20);
+		Page<WorkFlow> page = workflowService.queryPageByParmas(new HashMap<String, Object>(),
+				pageNo, pageSize);
+		model.addAttribute("list", page);
+		return "sys.flow.index";
+	}
+
+	/**
+	 * 请假列表
+	 * 
+	 * @param model
+	 * @param request
+	 * @return String
+	 */
+	@RequestMapping("leave/index")
+	public String leaveIndex(Model model, HttpServletRequest request) {
+		int pageNo = ServletRequestUtils.getIntParameter(request, "pageNo", 1);
+		int pageSize = ServletRequestUtils.getIntParameter(request, "pageSize", 20);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", UserUtil.getUser().getId());
+		Page<LeaveFlow> page = leaveService.queryPageByParmas(map, pageNo, pageSize);
+		model.addAttribute("list", page);
+		return "leave.index";
+	}
+
+	/**
+	 * 请假视图
+	 * 
+	 * @return String
+	 */
+	@RequestMapping("leave/addView")
+	public String leaveAddView() {
+		return "leave.add";
+	}
+
+	/**
+	 * 请假
+	 * 
+	 * @return String
+	 */
+	@RequestMapping("leave/add")
+	public String leaveAdd(LeaveFlow leaveFlow) {
+		ValidateUtil.validate(leaveFlow);
+		leaveFlow.setUserId(UserUtil.getUser().getId());
+		leaveFlow.setUsername(UserUtil.getUser().getUsername());
+		leaveService.addLeave(leaveFlow);
+		return "leave.add";
 	}
 
 }

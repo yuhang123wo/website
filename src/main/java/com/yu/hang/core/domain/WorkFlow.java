@@ -17,6 +17,7 @@ public class WorkFlow extends BaseModel {
 	private String name;
 	private String source;
 	private String sourceImg;
+	private String wkey;
 	private int state;
 	private String remark;
 	private Date createTime;
@@ -77,5 +78,15 @@ public class WorkFlow extends BaseModel {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
+
+	public String getWkey() {
+		return wkey;
+	}
+
+	public void setWkey(String wkey) {
+		this.wkey = wkey;
+	}
+
+
 
 }

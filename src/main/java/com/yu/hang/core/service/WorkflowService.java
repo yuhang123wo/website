@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.activiti.engine.task.Task;
 
-public interface WorkflowService {
+import com.yu.hang.core.base.BaseService;
+import com.yu.hang.core.domain.WorkFlow;
+
+public interface WorkflowService extends BaseService<WorkFlow> {
 
 	/**
 	 * 部署流程

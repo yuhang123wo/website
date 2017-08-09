@@ -9,17 +9,23 @@ import org.activiti.engine.IdentityService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.stereotype.Service;
 
-import com.yu.hang.core.domain.Flow;
+import com.yu.hang.core.base.BaseDao;
+import com.yu.hang.core.base.BaseServiceImpl;
+import com.yu.hang.core.dao.WorkFlowDao;
+import com.yu.hang.core.domain.WorkFlow;
+import com.yu.hang.core.exception.ValiAutoHandedException;
 import com.yu.hang.core.service.WorkflowService;
+import com.yu.hang.util.Constant;
+import com.yu.hang.vo.ValidateMsgVO;
 
 @Service("workFlowService")
-public class WorkflowServiceImpl implements WorkflowService {
+public class WorkflowServiceImpl extends BaseServiceImpl<WorkFlow> implements WorkflowService {
 
-	//private static Logger logger = LoggerFactory.getLogger(WorkflowServiceImpl.class);
+	// private static Logger logger =
+	// LoggerFactory.getLogger(WorkflowServiceImpl.class);
 	@Resource
 	private RepositoryService repositoryService;
 	@Resource
@@ -30,21 +36,23 @@ public class WorkflowServiceImpl implements WorkflowService {
 	private HistoryService historyService;
 	@Resource
 	private IdentityService identityService;
+	@Resource
+	private WorkFlowDao workFlowDao;
 
 	@Override
 	public void processDeployWorkFlow(long resourceId) {
-		Flow f = new Flow();
-		f.setName("leave");
-		f.setSource("deployments/leave.bpmn");
-		f.setSourceImg("deployments/leave.png");
-		repositoryService.createDeployment().name(f.getName()).addClasspathResource(f.getSource())
-				.addClasspathResource(f.getSourceImg()).deploy();
+		WorkFlow f = workFlowDao.queryById(resourceId);
+		if (f == null)
+			throw new ValiAutoHandedException(Constant.VALIDATE_ERROR, new ValidateMsgVO(
+					"resourceId", "流程不存在", "workFlow"));
+		repositoryService.createDeployment().name(f.getName())
+				.addClasspathResource(Constant.DEPLOY_PATH + f.getSource())
+				.addClasspathResource(Constant.DEPLOY_PATH + f.getSourceImg()).deploy();
 	}
 
 	@Override
 	public void processStartInstance(String key) {
-		ProcessInstance instance = runtimeService.startProcessInstanceByKey("LeaveBill");
-		System.out.println(instance.getProcessDefinitionName());
+		runtimeService.startProcessInstanceByKey(key);
 	}
 
 	@Override
@@ -57,5 +65,10 @@ public class WorkflowServiceImpl implements WorkflowService {
 	@Override
 	public void updateTask(String taskId) {
 		taskService.complete(taskId);
+	}
+
+	@Override
+	public BaseDao<WorkFlow> getDao() {
+		return workFlowDao;
 	}
 }

@@ -66,9 +66,9 @@ $(function(){
   </li>
   <li>
    <dl>
-    <dt>订单信息</dt>
-    <dd><a href="order_list.html">订单列表示例</a></dd>
-    <dd><a href="order_detail.html">订单详情示例</a></dd>
+    <dt>系统管理</dt>
+    <dd><a href="${path}/workFlow/listWorkFlow" class="seq" seq="20">系统流程</a></dd>
+    <dd><a href="${path}/workFlow/leave/index" class="seq" seq="21">请假管理</a></dd>
    </dl>
   </li>
  </ul>

@@ -33,4 +33,9 @@ public class Constant {
 	 * DEP_REDIS_TIME
 	 */
 	public static final int DEP_REDIS_TIME = 60 * 20;
+	
+	/**
+	 * 流程文件存入目录
+	 */
+	public static final String DEPLOY_PATH="deployments/";
 }
