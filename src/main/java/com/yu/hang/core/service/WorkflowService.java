@@ -54,5 +54,13 @@ public interface WorkflowService extends BaseService<WorkFlow> {
 	 * Page<Task>
 	 */
 	Page<Task> queryTask(long userId, int pageNo, int pageSize);
+	
+	/**
+	 * 
+	 * @param processInstanceId
+	 * @return
+	 * byte[]
+	 */
+	byte[] generateImage(String processInstanceId);
 
 }

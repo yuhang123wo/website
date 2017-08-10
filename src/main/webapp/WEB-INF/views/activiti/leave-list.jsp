@@ -41,7 +41,7 @@
 				<td class="center"><fmt:formatDate value="${rl.createTime}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
 				<td></td>
 				<td class="center">
-				 <a href="javascript:void(0)" title="详细" class="link_icon">&#118;</a></td>
+				 <a href="${path }/workFlow/toImg?instanceId=${rl.instanceId}" title="详细" target="_blank" class="link_icon">&#118;</a></td>
 			</tr>
 			</c:forEach>
 		</table>

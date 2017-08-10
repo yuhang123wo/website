@@ -1,10 +1,12 @@
 package com.yu.hang.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -137,4 +139,14 @@ public class ActivitiController {
 		return "waiting.index";
 	}
 
+	@RequestMapping("getImg")
+	public void getImg(HttpServletResponse response,String instanceId) throws IOException{
+		response.getOutputStream().write(workflowService.generateImage(instanceId));
+	}
+	
+	@RequestMapping("toImg")
+	public String toImg(String instanceId,Model model){
+		model.addAttribute("instanceId",instanceId);
+		return "img";
+	}
 }

@@ -1,17 +1,23 @@
 package com.yu.hang.core.service.impl;
 
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
+import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.activiti.image.ProcessDiagramGenerator;
+import org.apache.commons.io.IOUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -43,6 +49,8 @@ public class WorkflowServiceImpl extends BaseServiceImpl<WorkFlow> implements Wo
 	private IdentityService identityService;
 	@Resource
 	private WorkFlowDao workFlowDao;
+	@Resource
+	private ProcessEngine processEngine;
 
 	@Override
 	public void processDeployWorkFlow(long resourceId) {
@@ -97,5 +105,36 @@ public class WorkflowServiceImpl extends BaseServiceImpl<WorkFlow> implements Wo
 				.listPage((pageNo - 1) * pageSize,
 						pageNo * pageSize > count ? (int) count : pageNo * pageSize);
 		return new PageImpl<Task>(list, pageRequest, count);
+	}
+
+	public byte[] generateImage(String processInstanceId) {
+		// 1.创建核心引擎流程对象processEngine
+		TaskService taskService = processEngine.getTaskService();
+		Task task = taskService.createTaskQuery().processInstanceId(processInstanceId)
+				.singleResult();
+		// 流程定义
+		BpmnModel bpmnModel = processEngine.getRepositoryService().getBpmnModel(
+				task.getProcessDefinitionId());
+
+		// 正在活动节点
+		List<String> activeActivityIds = processEngine.getRuntimeService().getActiveActivityIds(
+				task.getExecutionId());
+
+		ProcessDiagramGenerator pdg = processEngine.getProcessEngineConfiguration()
+				.getProcessDiagramGenerator();
+		// 生成流图片
+		InputStream inputStream =pdg
+				.generateDiagram(bpmnModel, "png", activeActivityIds, new ArrayList<String>(),
+						processEngine.getProcessEngineConfiguration().getActivityFontName(),
+						processEngine.getProcessEngineConfiguration().getLabelFontName(), null, 1.0);
+		// .generateDiagram(bpmnModel, "png", activeActivityIds);
+		try {
+			// 生成本地图片
+			return IOUtils.toByteArray(inputStream);
+		} catch (Exception e) {
+			throw new RuntimeException("生成流程图异常！", e);
+		} finally {
+			IOUtils.closeQuietly(inputStream);
+		}
 	}
 }
