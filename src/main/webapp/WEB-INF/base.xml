@@ -84,4 +84,12 @@
 		</put-list-attribute>
 	</definition>
 	
+	<definition name="waiting.index" extends="manage.layout">
+		<put-attribute name="seq" value="22"></put-attribute>
+		<put-attribute name="title" value="待办事项" />
+		<put-attribute name="body" value="/WEB-INF/views/activiti/waiting-list.jsp" />
+		<put-list-attribute name="scriptItems" inherit="true">
+		</put-list-attribute>
+	</definition>
+	
 </tiles-definitions>

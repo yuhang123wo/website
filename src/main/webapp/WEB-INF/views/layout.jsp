@@ -69,6 +69,7 @@ $(function(){
     <dt>系统管理</dt>
     <dd><a href="${path}/workFlow/listWorkFlow" class="seq" seq="20">系统流程</a></dd>
     <dd><a href="${path}/workFlow/leave/index" class="seq" seq="21">请假管理</a></dd>
+    <dd><a href="${path}/workFlow/waiting/index" class="seq" seq="22">待办事项</a></dd>
    </dl>
   </li>
  </ul>

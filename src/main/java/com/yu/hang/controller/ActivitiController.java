@@ -1,13 +1,11 @@
 package com.yu.hang.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.activiti.engine.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -51,20 +49,6 @@ public class ActivitiController {
 	public ResultMsg deploy(long resourceId) {
 		workflowService.processDeployWorkFlow(resourceId);
 		return new ResultMsg().success();
-	}
-
-	/**
-	 * 获取待办事
-	 * 
-	 * @return ResultMsg
-	 */
-	@RequestMapping("getTask")
-	@ResponseBody
-	public ResultMsg getTask(long userId, HttpServletRequest request) {
-		int pageNo = ServletRequestUtils.getIntParameter(request, "pageNo", 1);
-		int pageSize = ServletRequestUtils.getIntParameter(request, "pageSize", 20);
-		Page<LeaveFlow> list = leaveService.queryTask(userId, pageNo, pageSize);
-		return new ResultMsg().successObj(list);
 	}
 
 	/**
@@ -135,6 +119,22 @@ public class ActivitiController {
 		leaveFlow.setUsername(UserUtil.getUser().getUsername());
 		leaveService.addLeave(leaveFlow);
 		return new ResultMsg().success();
+	}
+
+	/**
+	 * 获取待办事项
+	 * 
+	 * @param userId
+	 * @param request
+	 * @return ResultMsg
+	 */
+	@RequestMapping("waiting/index")
+	public String waiting(HttpServletRequest request, Model model) {
+		int pageNo = ServletRequestUtils.getIntParameter(request, "pageNo", 1);
+		int pageSize = ServletRequestUtils.getIntParameter(request, "pageSize", 20);
+		Page<LeaveFlow> list = leaveService.queryTask(2, pageNo, pageSize);
+		model.addAttribute("list", list);
+		return "waiting.index";
 	}
 
 }
