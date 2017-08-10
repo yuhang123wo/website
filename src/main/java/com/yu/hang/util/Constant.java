@@ -33,9 +33,22 @@ public class Constant {
 	 * DEP_REDIS_TIME
 	 */
 	public static final int DEP_REDIS_TIME = 60 * 20;
-	
+
 	/**
 	 * 流程文件存入目录
 	 */
-	public static final String DEPLOY_PATH="deployments/";
+	public static final String DEPLOY_PATH = "deployments/";
+	/**
+	 * 部门主管
+	 */
+	public static final int DEPT_GRADE_M = 1;
+	/**
+	 * 部门普通员工
+	 */
+	public static final int DEPT_GRADE_P = 0;
+	/**
+	 * 临时员工
+	 */
+	public static final int DEPT_GRADE_L = -1;
+
 }

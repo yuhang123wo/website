@@ -2,6 +2,7 @@ package com.yu.hang.core.domain;
 
 import java.util.Date;
 
+import org.activiti.engine.task.Task;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.yu.hang.core.base.BaseModel;
@@ -29,6 +30,25 @@ public class LeaveFlow extends BaseModel {
 	private Date createTime;
 	private Date updateTime;
 	private int state;
+	private String instanceId;
+	
+	private Task task;
+	
+	public Task getTask() {
+		return task;
+	}
+
+	public void setTask(Task task) {
+		this.task = task;
+	}
+
+	public String getInstanceId() {
+		return instanceId;
+	}
+
+	public void setInstanceId(String instanceId) {
+		this.instanceId = instanceId;
+	}
 
 	public String getTitle() {
 		return this.title;

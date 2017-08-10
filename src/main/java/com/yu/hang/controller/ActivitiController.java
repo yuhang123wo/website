@@ -1,11 +1,13 @@
 package com.yu.hang.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.activiti.engine.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -52,27 +54,17 @@ public class ActivitiController {
 	}
 
 	/**
-	 * 
-	 * @param resourceId
-	 * @return ResultMsg
-	 */
-	@RequestMapping("start")
-	@ResponseBody
-	public ResultMsg start(long resourceId) {
-		WorkFlow f = workflowService.queryById(resourceId);
-		workflowService.processStartInstance(f.getWkey());
-		return new ResultMsg().success();
-	}
-
-	/**
 	 * 获取待办事
 	 * 
 	 * @return ResultMsg
 	 */
 	@RequestMapping("getTask")
 	@ResponseBody
-	public ResultMsg getTask() {
-		return new ResultMsg().successObj(workflowService.getTask(UserUtil.getUser().getId()));
+	public ResultMsg getTask(long userId, HttpServletRequest request) {
+		int pageNo = ServletRequestUtils.getIntParameter(request, "pageNo", 1);
+		int pageSize = ServletRequestUtils.getIntParameter(request, "pageSize", 20);
+		Page<Task> list = workflowService.queryTask(userId, pageNo, pageSize);
+		return new ResultMsg().successObj(list);
 	}
 
 	/**
@@ -136,12 +128,13 @@ public class ActivitiController {
 	 * @return String
 	 */
 	@RequestMapping("leave/add")
-	public String leaveAdd(LeaveFlow leaveFlow) {
+	@ResponseBody
+	public ResultMsg leaveAdd(LeaveFlow leaveFlow) {
 		ValidateUtil.validate(leaveFlow);
 		leaveFlow.setUserId(UserUtil.getUser().getId());
 		leaveFlow.setUsername(UserUtil.getUser().getUsername());
 		leaveService.addLeave(leaveFlow);
-		return "leave.add";
+		return new ResultMsg().success();
 	}
 
 }

@@ -30,6 +30,9 @@
 		<if test="username !=null">
 			and username=#{username}
 		</if>
+		<if test="type!=null">
+		    and type=#{type}
+		</if>
 		<if test="usernameLike !=null">
 			and username like #{usernameLike}
 		</if>

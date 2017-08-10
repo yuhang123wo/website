@@ -1,5 +1,7 @@
 package com.yu.hang.core.service;
 
+import org.springframework.data.domain.Page;
+
 import com.yu.hang.core.base.BaseService;
 import com.yu.hang.core.domain.LeaveFlow;
 
@@ -17,5 +19,15 @@ public interface LeaveService extends BaseService<LeaveFlow> {
 	 *            void
 	 */
 	void addLeave(LeaveFlow leaveFlow);
+
+	/**
+	 * 查询请假流程
+	 * 
+	 * @param userId
+	 * @param pageNo
+	 * @param pageSize
+	 * @return Page<LeaveFlow>
+	 */
+	Page<LeaveFlow> queryTask(long userId, int pageNo, int pageSize);
 
 }
