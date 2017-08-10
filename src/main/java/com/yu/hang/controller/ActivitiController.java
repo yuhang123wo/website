@@ -63,7 +63,7 @@ public class ActivitiController {
 	public ResultMsg getTask(long userId, HttpServletRequest request) {
 		int pageNo = ServletRequestUtils.getIntParameter(request, "pageNo", 1);
 		int pageSize = ServletRequestUtils.getIntParameter(request, "pageSize", 20);
-		Page<Task> list = workflowService.queryTask(userId, pageNo, pageSize);
+		Page<LeaveFlow> list = leaveService.queryTask(userId, pageNo, pageSize);
 		return new ResultMsg().successObj(list);
 	}
 

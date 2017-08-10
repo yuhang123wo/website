@@ -69,6 +69,7 @@ public class LeaveServiceImpl extends BaseServiceImpl<LeaveFlow> implements Leav
 		leaveFlow.setInstanceId(instance.getId());
 		leaveDao.update(leaveFlow);
 	}
+
 	@Override
 	public Page<LeaveFlow> queryTask(long userId, int pageNo, int pageSize) {
 		Page<Task> tasks = workflowService.queryTask(userId, pageNo, pageSize);
@@ -81,7 +82,9 @@ public class LeaveServiceImpl extends BaseServiceImpl<LeaveFlow> implements Leav
 		for (Task task : list) {
 			String processInstanceId = task.getProcessInstanceId();
 			LeaveFlow leave = leaveDao.queryByInstanceId(processInstanceId);
-			leave.setTask(task);
+			leave.setTaskId(task.getId());
+			leave.setProcessName(task.getName());
+			leave.setAssignee(task.getAssignee());
 			result.add(leave);
 		}
 		return new PageImpl<LeaveFlow>(result, new PageRequest(pageNo - 1, pageSize),
