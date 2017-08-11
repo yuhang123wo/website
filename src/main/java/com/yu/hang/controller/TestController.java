@@ -32,6 +32,7 @@ import com.google.zxing.common.BitMatrix;
 import com.yu.hang.core.domain.Test;
 import com.yu.hang.core.service.TestService;
 import com.yu.hang.core.service.UserinfoService;
+import com.yu.hang.util.mail.SendMailUtil;
 import com.yu.hang.util.poi.CommonExcel;
 
 @Controller
@@ -104,8 +105,8 @@ public class TestController {
 	@ResponseBody
 	public Object testm() throws Exception {
 		return userinfoService.listAllMenu();
-//		String text = "weixin://wxpay/bizpayurl?pr=XmlAkwW";
-//		generateQRCode(text, 500, 500, "png");
+		// String text = "weixin://wxpay/bizpayurl?pr=XmlAkwW";
+		// generateQRCode(text, 500, 500, "png");
 	}
 
 	private static String generateQRCode(String text, int width, int height, String format)
@@ -139,6 +140,17 @@ public class TestController {
 		}
 		return times;
 	}
+
+	@RequestMapping("test/send")
+	public void sendMail() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("username", "username");
+		map.put("content", "sdfds");
+		sendMailUtil.send(map, "591057762@qq.com", "test", "mail.ftl");
+	}
+
+	@Resource
+	private SendMailUtil sendMailUtil;
 
 	public static void main(String[] args) throws Exception {
 

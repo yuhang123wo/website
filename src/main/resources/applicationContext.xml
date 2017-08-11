@@ -97,4 +97,5 @@
     
     <import resource="applicationContext-redis.xml"/>
     <import resource="applicationContext-activiti.xml"/>
+    <import resource="applicationContext-mail.xml"/>
 </beans>
