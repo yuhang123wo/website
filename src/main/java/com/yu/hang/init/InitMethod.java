@@ -1,8 +1,5 @@
 package com.yu.hang.init;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;

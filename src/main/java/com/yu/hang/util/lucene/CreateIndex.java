@@ -178,7 +178,10 @@ public class CreateIndex {
 			}
 		} catch (OfficeXmlFileException e) {
 			return getText07(filePath);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 
 	/**
@@ -210,21 +213,17 @@ public class CreateIndex {
 	 * 
 	 * @param file
 	 * @return
+	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws Exception
 	 *             String
 	 */
-	private static String getText03(File file) {
-		try {
-			InputStream is = new FileInputStream(file);
-			WordExtractor ex = new WordExtractor(is);
-			String text2003 = ex.getText();
-			is.close();
-			return text2003;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+	private static String getText03(File file) throws Exception {
+		InputStream is = new FileInputStream(file);
+		WordExtractor ex = new WordExtractor(is);
+		String text2003 = ex.getText();
+		is.close();
+		return text2003;
 	}
 
 	public static void main(String[] args) throws Exception {

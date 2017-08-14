@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,6 +104,7 @@ public class JsonMapper {
 	/**
 	 * 反序列化复杂Collection如List<Bean>, 先使用contructMapType()构造类型, 然后调用本函数.
 	 */
+	@SuppressWarnings("unchecked")
 	public <T> T fromJson(String jsonString, JavaType javaType) {
 		if (StringUtils.isEmpty(jsonString)) {
 			return null;

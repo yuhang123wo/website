@@ -13,7 +13,9 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  */
 public class JsonObjectMapper extends ObjectMapper {
 
-    public JsonObjectMapper() {
+	private static final long serialVersionUID = -6519708803356036294L;
+
+	public JsonObjectMapper() {
         super();
         // 空值处理为空串
         this.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
