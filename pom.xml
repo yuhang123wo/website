@@ -49,6 +49,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<downloadSources>true</downloadSources>
 		<activiti.version>5.19.0</activiti.version>
+		<lucene.version>6.6.0</lucene.version>
 
 	</properties>
 
@@ -76,17 +77,17 @@
 
 	<!-- 依赖项定义 -->
 	<dependencies>
-	
-	<dependency>  
-    <groupId>org.activiti</groupId>  
-    <artifactId>activiti-engine</artifactId>  
-    <version>${activiti.version}</version>  
-    </dependency>  
-   <dependency>  
-    <groupId>org.activiti</groupId>  
-    <artifactId>activiti-spring</artifactId>  
-    <version>${activiti.version}</version>  
-  </dependency>  
+
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-engine</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-spring</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-core</artifactId>
@@ -579,14 +580,51 @@
 			<artifactId>tiles-template</artifactId>
 			<version>3.0.5</version>
 		</dependency>
-		 <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>core</artifactId>
-            <version>3.3.0</version>
-        </dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>3.3.0</version>
+		</dependency>
 		<!-- org.apache.tiles -->
-	</dependencies>
 
+		<!-- lucene -->
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-highlighter</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-queryparser</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-demo</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.janeluo</groupId>
+			<artifactId>ikanalyzer</artifactId>
+			<version>2012_u6</version>
+		</dependency>
+	<dependency>
+		<groupId>org.apache.lucene</groupId>
+		<artifactId>lucene-analyzers-smartcn</artifactId>
+		<version>${lucene.version}</version>
+	</dependency>  
+	</dependencies>
 	<build>
 		<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes/</outputDirectory>
 		<plugins>

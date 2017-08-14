@@ -13,7 +13,12 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import freemarker.template.Template;
-
+/**
+ * 邮件发送
+ * @author yuhang
+ * @Date 2017年8月11日
+ * @desc
+ */
 public class SendMailUtil {
 	@Autowired
 	private JavaMailSender javaMailSender;
