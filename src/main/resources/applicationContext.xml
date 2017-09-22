@@ -98,5 +98,5 @@
     <import resource="applicationContext-redis.xml"/>
     <import resource="applicationContext-activiti.xml"/>
     <import resource="applicationContext-mail.xml"/>
-    <import resource="duboo.xml"/>
+   <!--  <import resource="duboo.xml"/> -->
 </beans>
